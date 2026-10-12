@@ -5,6 +5,7 @@
 
   <h2 id="start-here">Start here</h2>
   <p>This guide does two jobs. It lets a person see exactly what is being built and why, and it gives a developer (or an AI assistant such as Claude) enough detail to build it without guessing.</p>
+  <p>The guide lives online at <a href="https://breathe-app-scope.vercel.app/">breathe-app-scope.vercel.app</a>. Share that link with anyone who needs to see it. Nothing needs installing.</p>
   <p>If this is your first time here, three steps will get you up to speed in about ten minutes:</p>
   <ol>
     <li><strong>Read this page.</strong> It covers what the app is, who uses it and the decisions already made.</li>
@@ -117,10 +118,13 @@
     <li>Add the database migration files from the <a href="#appendix-migrations">appendix</a> to <code>supabase/migrations/</code>. These are the instructions that set up the database.</li>
     <li>Ask Claude to work through the <a href="#build-plan">build plan</a> one milestone at a time. The starter prompt below does this for you.</li>
   </ol>
+  <p class="note">The downloaded file has no pictures in it. The full guide, with every screenshot, is online at <a href="https://breathe-app-scope.vercel.app/">https://breathe-app-scope.vercel.app/</a>. The starter prompt gives Claude that link too.</p>
 
   <h2 id="starter-prompt">Starter prompt</h2>
   <p>A prompt is just the message you send to Claude. Copy the one below and paste it in as your first message. It tells Claude to read the guide before doing anything, to build in order, and to stop after each milestone.</p>
   <pre><code>Read docs/build-guide.md fully before writing any code.
+The same guide, with the screen mockups, is online at
+https://breathe-app-scope.vercel.app/
 Build the And Breathe member app it describes, following
 the build plan one milestone at a time. Follow the code
 standards and design system in the guide exactly. Use the

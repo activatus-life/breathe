@@ -197,7 +197,7 @@ details pre { margin: 0; border-radius: 0 0 14px 14px; max-height: 520px; }
 
   <h3>What you're getting</h3>
   <p>One file called <code>and-breathe-build-guide.md</code>. It holds every page of this guide as plain text. The <code>.md</code> on the end stands for Markdown, which is just a tidy way of writing plain text that Claude reads very easily.</p>
-  <p>The screenshots aren't in the file. Each one is replaced by a short description, so keep this page handy if you want to look at them.</p>
+  <p>The screenshots aren't in the file. Each one is replaced by a short description, and the file points back to the online guide at <a href="https://breathe-app-scope.vercel.app/">breathe-app-scope.vercel.app</a> so you (or Claude) can look at them there.</p>
 
   <h3>How to use it</h3>
   <ol>
@@ -217,6 +217,7 @@ details pre { margin: 0; border-radius: 0 0 14px 14px; max-height: 520px; }
 
 <script>
 const SCHEMA = {{schema}};
+const GUIDE_URL = "https://breathe-app-scope.vercel.app/";
 const PALETTE = [
   ["Paper", "#f5f1e6", "Page background"],
   ["Card", "#fffcf5", "Cards, inputs"],
@@ -365,7 +366,7 @@ function toMarkdown(node) {
       const rows = [...child.querySelectorAll("tr")].map((row) => [...row.children].map(cellText));
       if (rows.length) out += "| " + rows[0].join(" | ") + " |\n| " + rows[0].map(() => "---").join(" | ") + " |\n" + rows.slice(1).map((row) => "| " + row.join(" | ") + " |").join("\n") + "\n\n";
     }
-    else if (tag === "img") out += `_[Mockup screenshot: ${child.alt}. See index.html.]_\n\n`;
+    else if (tag === "img") out += `_[Mockup screenshot: ${child.alt}. See ${GUIDE_URL}]_\n\n`;
     else if (tag === "summary") out += "#### `" + child.textContent.trim() + "`\n\n";
     else if (child.classList.contains("swatch")) out += `- ${child.querySelector("strong").textContent}: ${child.querySelector("code").textContent}\n`;
     else if (child.classList.contains("btn") || child.classList.contains("chip") || child.classList.contains("badge")) return;
@@ -374,7 +375,8 @@ function toMarkdown(node) {
   return out;
 }
 const downloadGuide = () => {
-  const markdown = pages.map((page) => toMarkdown(page)).join("\n---\n\n");
+  const header = `> This is the And Breathe build guide as one Markdown file. The full guide, with screenshots, is online at ${GUIDE_URL}\n\n`;
+  const markdown = header + pages.map((page) => toMarkdown(page)).join("\n---\n\n");
   const blob = new Blob([markdown.replace(/\n{3,}/g, "\n\n")], { type: "text/markdown" });
   const link = document.createElement("a");
   link.href = URL.createObjectURL(blob);

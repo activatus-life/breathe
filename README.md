@@ -4,6 +4,8 @@
 
 You don't need to be a developer to read it.
 
+### 🔗 Read it online: [breathe-app-scope.vercel.app](https://breathe-app-scope.vercel.app/)
+
 <p>
   <img src="screens/today.jpg" alt="Today screen" width="200">
   <img src="screens/guided-session.jpg" alt="Guided session screen" width="200">
@@ -30,7 +32,9 @@ And Breathe is a breathwork app that takes a member through a multi-week program
 
 ## 🚀 Getting started
 
-The whole guide is one file: **`index.html`**. There is nothing to install.
+The quickest way in is the online version: **https://breathe-app-scope.vercel.app/**
+
+Prefer a copy on your own computer? The whole guide is one file, **`index.html`**, and there is nothing to install.
 
 1. **Get the files.** On GitHub, press the green **Code** button and choose **Download ZIP**, then unzip it. (Developers can clone the repository as usual.)
 2. **Open `index.html`.** Double-click it and it opens in your web browser.
@@ -59,9 +63,11 @@ The whole guide is one file: **`index.html`**. There is nothing to install.
 
 The guide is written so it can be handed straight to Claude (or another AI coding assistant).
 
-1. Open `index.html` and press **Download for Claude** at the top right. It explains what you're downloading before anything is saved.
+1. Open [the guide](https://breathe-app-scope.vercel.app/) (or `index.html`) and press **Download for Claude** at the top right. It explains what you're downloading before anything is saved.
 2. Give that file to Claude, or to whoever is building the app.
 3. Follow the **Using this guide with Claude** page. It has the hand-over steps and a starter prompt to copy.
+
+> 🤖 **Note for Claude and other AI assistants:** the full guide, including the screen mockups, is at https://breathe-app-scope.vercel.app/. The text-only version to work from is the Markdown file from **Download for Claude**.
 
 ## ✏️ Changing the guide
 
