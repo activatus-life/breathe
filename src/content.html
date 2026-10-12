@@ -1,0 +1,652 @@
+<!-- ============ START HERE ============ -->
+<section class="page" id="overview" data-group="Start here" data-title="Overview">
+  <h1>And Breathe build guide</h1>
+  <p class="lede">Everything needed to build the And Breathe member app: what each screen does, the design system, the database, and the order to build it in. You don't need to be a developer to read it.</p>
+
+  <h2 id="start-here">Start here</h2>
+  <p>This guide does two jobs. It lets a person see exactly what is being built and why, and it gives a developer (or an AI assistant such as Claude) enough detail to build it without guessing.</p>
+  <p>If this is your first time here, three steps will get you up to speed in about ten minutes:</p>
+  <ol>
+    <li><strong>Read this page.</strong> It covers what the app is, who uses it and the decisions already made.</li>
+    <li><strong>Look through <a href="#screens">Screens</a>.</strong> It shows the app page by page with pictures, so it's the quickest way to get a feel for it.</li>
+    <li><strong>Read <a href="#for-claude">Using this guide with Claude</a>.</strong> It explains how to hand the guide over so the app gets built.</li>
+  </ol>
+  <p>Every page opens with a short note in grey italics, like the one under the title above. That note says in plain language what the page is about. If a page gets too technical, read the note and move on. Nothing important is hidden in the detail.</p>
+
+  <div class="human-only">
+    <h2 id="finding-your-way">Finding your way around</h2>
+    <ul>
+      <li><strong>The menu on the left</strong> lists every page. The green headings (Start here, Product, Design system and so on) are sections, and the links under each one are its pages. Click a page to open it. The page you're on is highlighted.</li>
+      <li><strong>On a phone,</strong> the menu is tucked away. Tap the ☰ button at the top left to open it.</li>
+      <li><strong>"On this page", on the right,</strong> lists the headings of the page you're reading. Click one to jump straight to it. It's hidden on smaller screens.</li>
+      <li><strong>Previous and Next,</strong> at the bottom of every page, walk you through the guide in order, like turning pages in a book.</li>
+      <li><strong>Screenshots get bigger</strong> when you click or tap them. Click again to close.</li>
+      <li><strong>Download for Claude,</strong> at the top right, saves the whole guide as one file to give to an AI assistant. It explains itself before anything downloads.</li>
+    </ul>
+  </div>
+
+  <h2 id="whats-inside">What's in each section</h2>
+  <table>
+    <thead><tr><th>Section</th><th>What's in it</th><th>Most useful for</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Start here</strong></td><td>This overview, and how to hand the guide to Claude</td><td>Everyone</td></tr>
+      <tr><td><strong>Product</strong></td><td>What each screen does, and who is allowed to see what</td><td>Everyone</td></tr>
+      <tr><td><strong>Design system</strong></td><td>The look and feel: colours, fonts, buttons and the tone of the wording</td><td>Everyone, designers especially</td></tr>
+      <tr><td><strong>Architecture</strong></td><td>The tools the app is built with, how sign-in works and the rules for writing the code</td><td>Developers</td></tr>
+      <tr><td><strong>Database</strong></td><td>Where the app keeps its information, and the rules that protect it</td><td>Developers</td></tr>
+      <tr><td><strong>Build plan</strong></td><td>The order to build things in, and the questions still to be answered</td><td>Everyone</td></tr>
+      <tr><td><strong>Appendix</strong></td><td>The actual database files, ready to copy</td><td>Developers</td></tr>
+    </tbody>
+  </table>
+
+  <h2 id="what-it-is">What the app is</h2>
+  <p>And Breathe is a breathwork app that takes a member through a multi-week programme. Each day has three short guided sessions (morning, noon and evening) built around breath holds, pulse readings and recovery. Members log their workouts, watch their progress against themselves, and share their practice with a cohort.</p>
+
+  <h2 id="who-uses-it">Who uses it</h2>
+  <table>
+    <thead><tr><th>Person</th><th>What they do</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Member</strong></td><td>Does the daily sessions, checks in, logs workouts, posts in their cohort group. Can be in several programmes and cohorts, or none (solo).</td></tr>
+      <tr><td><strong>Coach</strong></td><td>A role inside one cohort. Sees the cohort roster and every member's full data for the dates that member was in the cohort.</td></tr>
+      <tr><td><strong>Admin</strong></td><td>A global account type. Creates programmes, breath-hold steps and cohorts, and assigns coaches.</td></tr>
+    </tbody>
+  </table>
+
+  <h2 id="decisions">Decisions already made</h2>
+  <table>
+    <thead><tr><th>Area</th><th>Decision</th></tr></thead>
+    <tbody>
+      <tr><td>App framework</td><td>React Native with Expo, written in TypeScript</td></tr>
+      <tr><td>Builds and store releases</td><td>Expo Application Services</td></tr>
+      <tr><td>Backend</td><td>Supabase: Postgres database, authentication, edge functions</td></tr>
+      <tr><td>Sign-in</td><td>Google only, through Supabase authentication</td></tr>
+      <tr><td>Types</td><td>Generated from the database into the app, never written by hand</td></tr>
+      <tr><td>Programme content</td><td>Lives in the database, so courses can change week to week without an app release</td></tr>
+      <tr><td>Coach access</td><td>Automatic. No setting for the member to turn it off.</td></tr>
+      <tr><td>Sharing to the group</td><td>One toggle. Shares "session done" and mood with the cohort. Never pulse, holds or notes.</td></tr>
+      <tr><td>Mood</td><td>Asked once per session. Sleep is asked only on the first check-in of the day.</td></tr>
+      <tr><td>Swapping cohorts</td><td>Progress is kept. Data belongs to the member, not the cohort.</td></tr>
+      <tr><td>Several programmes at once</td><td>Allowed. The member switches programme from a menu.</td></tr>
+      <tr><td>Data export</td><td>CSV files</td></tr>
+    </tbody>
+  </table>
+
+  <h2 id="glossary">Words you'll see</h2>
+  <p>The guide uses a handful of technical words. Here is what they mean in everyday terms.</p>
+  <table>
+    <thead><tr><th>Word</th><th>What it means</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Tech stack</strong></td><td>The set of tools the app is built with, in the way a kitchen is an oven, a fridge and a set of knives</td></tr>
+      <tr><td><strong>React Native and Expo</strong></td><td>The tools used to build the app itself. They let one set of code run on both iPhone and Android.</td></tr>
+      <tr><td><strong>Supabase</strong></td><td>The online service that stores the app's information and handles sign-in</td></tr>
+      <tr><td><strong>Database</strong></td><td>Where everything the app remembers is kept: members, sessions, posts</td></tr>
+      <tr><td><strong>Table</strong></td><td>One sheet in the database, like a spreadsheet tab. Each row is one thing and each column is one fact about it.</td></tr>
+      <tr><td><strong>Migration</strong></td><td>A file of instructions that builds or changes the database, a bit like a recipe</td></tr>
+      <tr><td><strong>Types</strong></td><td>Labels that tell the code what shape each piece of information is, so mistakes are caught early</td></tr>
+      <tr><td><strong>Repository</strong></td><td>The project folder that holds all the app's code, with a history of every change</td></tr>
+      <tr><td><strong>Markdown</strong></td><td>A simple plain-text file format, ending in <code>.md</code>, that AI assistants read easily</td></tr>
+      <tr><td><strong>Milestone</strong></td><td>One chunk of the build with a clear finish line</td></tr>
+      <tr><td><strong>MVP</strong></td><td>Minimum viable product: the first version, with only what's needed to be useful</td></tr>
+      <tr><td><strong>Cohort</strong></td><td>A group of members going through a programme together, with a coach</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="page" id="for-claude" data-group="Start here" data-title="Using this guide with Claude">
+  <h1>Using this guide with Claude</h1>
+  <p class="lede">This guide is written so you can hand it straight to Claude (or another AI coding assistant) and have it build the app. This page explains what that means and how to do it, step by step.</p>
+
+  <h2 id="what-claude-does">What Claude does here</h2>
+  <p>Claude is an AI assistant made by Anthropic. You may know it as a chat window that answers questions. It also comes as Claude Code, a version that works inside a project folder on a computer and writes the code itself.</p>
+  <p>The idea is simple. You give Claude this guide. Claude reads all of it, then builds the app one piece at a time. After each piece it stops and tells you what it did, so a person can try it on a phone before the next piece starts.</p>
+  <p>Claude can only build what it has been told about, which is why this guide is so detailed. The more of it Claude reads, the less it has to guess.</p>
+
+  <h2 id="two-ways">Two ways to use it</h2>
+  <table>
+    <thead><tr><th>You want to</th><th>Do this</th><th>You'll need</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Understand the app</strong> or ask questions about it</td><td>Download the guide, drag the file into a chat with Claude, and ask in your own words. "What can a coach see?" works fine.</td><td>A Claude account. No technical knowledge.</td></tr>
+      <tr><td><strong>Build the app</strong></td><td>Follow the hand-over steps below. If the words in them are unfamiliar, pass this page to your developer.</td><td>Claude Code on a computer, and someone comfortable with a project folder</td></tr>
+    </tbody>
+  </table>
+
+  <h2 id="hand-over">How to hand it over</h2>
+  <ol>
+    <li>Use <strong>Download for Claude</strong> at the top of the page. It saves the whole guide as one Markdown file, a plain-text copy that Claude reads easily.</li>
+    <li>Put that file in the root of the app repository as <code>docs/build-guide.md</code>. In other words, inside the app's project folder, in a folder called <code>docs</code>, renamed to <code>build-guide.md</code>.</li>
+    <li>Add the database migration files from the <a href="#appendix-migrations">appendix</a> to <code>supabase/migrations/</code>. These are the instructions that set up the database.</li>
+    <li>Ask Claude to work through the <a href="#build-plan">build plan</a> one milestone at a time. The starter prompt below does this for you.</li>
+  </ol>
+
+  <h2 id="starter-prompt">Starter prompt</h2>
+  <p>A prompt is just the message you send to Claude. Copy the one below and paste it in as your first message. It tells Claude to read the guide before doing anything, to build in order, and to stop after each milestone.</p>
+  <pre><code>Read docs/build-guide.md fully before writing any code.
+Build the And Breathe member app it describes, following
+the build plan one milestone at a time. Follow the code
+standards and design system in the guide exactly. Use the
+existing Supabase migrations and generated types; do not
+change the database without writing a new migration.
+After each milestone, stop and summarise what you built
+and anything in the guide that was unclear.</code></pre>
+
+  <h2 id="what-to-expect">What to expect</h2>
+  <ul>
+    <li><strong>It builds in ten steps.</strong> The <a href="#build-plan">build plan</a> lists them. Each one ends in something you can open on a phone and try.</li>
+    <li><strong>It stops and reports.</strong> After each step Claude summarises what it built and anything it found unclear. Read that, try the app, then tell it to carry on.</li>
+    <li><strong>You can talk to it normally.</strong> "The Today screen doesn't match the picture" is a perfectly good instruction.</li>
+    <li><strong>Some things aren't decided yet.</strong> They're listed under <a href="#open-questions">Open questions</a>. Claude builds the simplest version of each and flags it, so nothing gets stuck waiting.</li>
+    <li><strong>A person still checks the work.</strong> Claude does the typing. Someone needs to try each step and say whether it's right.</li>
+  </ul>
+
+  <h2 id="rules-for-the-builder">Rules for whoever builds it</h2>
+  <p>These apply to a developer and to Claude alike. They're the few things that cause real trouble if ignored.</p>
+  <ul>
+    <li><strong>The database is the source of truth.</strong> Change it only through a new migration, then regenerate types.</li>
+    <li><strong>Never hand-edit</strong> <code>src/types/database.ts</code>.</li>
+    <li><strong>Keep the "Concept · Example data" badges out</strong> of the real app. They only mark the mockups.</li>
+    <li><strong>Breath-hold safety copy and timings</strong> must come from the course author before release. The seeded values are placeholders.</li>
+    <li>Where this guide says <span class="tag tag-open">Open question</span>, build the simplest version and flag it, rather than inventing a rule.</li>
+  </ul>
+</section>
+
+<!-- ============ PRODUCT ============ -->
+<section class="page" id="screens" data-group="Product" data-title="Screens">
+  <h1>Screens</h1>
+  <p class="lede">Six member screens behind a five-tab bar (Today, Progress, Workouts, Group, Settings), plus the full-screen guided session. Each one is shown below with a picture and a table of what every part does. The last column of each table is for developers: it says where that piece of information is kept.</p>
+
+  <h2 id="screen-today">Today</h2>
+  <div class="screen">
+    <figure><img src="{{img:today}}" alt="Today screen: greeting, three sessions, mood and sleep check-in"></figure>
+    <div>
+      <p>The home screen. Shows where the member is in their programme and what to do next.</p>
+      <table>
+        <thead><tr><th>Element</th><th>Behaviour</th><th>Data</th></tr></thead>
+        <tbody>
+          <tr><td>Date and greeting</td><td>Good morning, afternoon or evening, from the member's time zone</td><td><code>profiles.timezone</code></td></tr>
+          <tr><td>"Week 3 of 6 · CO₂ tolerance block"</td><td>Week worked out from the enrolment start date. Block found by week number.</td><td><code>enrolments.started_on</code>, <code>programs.duration_weeks</code>, <code>program_blocks</code></td></tr>
+          <tr><td>Morning, Noon, Evening cards</td><td><strong>Done</strong> if the session is finished. <strong>Up next</strong> for the first unfinished slot. <strong>Later</strong> for the rest. Tapping starts the guided session.</td><td><code>sessions.status</code>, <code>session_reminders.reminder_time</code></td></tr>
+          <tr><td>How are you arriving today?</td><td>Mood for the next session. Sleep shown only if no check-in exists yet today.</td><td><code>check_ins.mood</code>, <code>check_ins.sleep_quality</code></td></tr>
+          <tr><td>Quick pulse</td><td>Optional resting pulse saved with the check-in</td><td><code>check_ins.pulse_bpm</code></td></tr>
+          <tr><td>Programme switcher</td><td>Only shown when the member has more than one active enrolment. Placement is in a menu, not on the tab bar.</td><td><code>enrolments</code> where <code>status = 'active'</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <h2 id="screen-guided-session">Guided session</h2>
+  <div class="screen">
+    <figure><img src="{{img:guided-session}}" alt="Guided session: starting heart rate step with a 60-second count"></figure>
+    <div>
+      <p>A full-screen, dark-green flow. The steps come from the database for the programme, week and slot, so a course change needs no app release.</p>
+      <table>
+        <thead><tr><th>Element</th><th>Behaviour</th><th>Data</th></tr></thead>
+        <tbody>
+          <tr><td>Step bar (Pulse, Base, Hold, 3 min…)</td><td>One segment per protocol step, in order. Current step highlighted.</td><td><code>protocol_steps</code> for <code>week_number</code> and <code>slot</code> (a null slot applies to all slots)</td></tr>
+          <tr><td>Morning, Noon, Evening switch</td><td>Defaults to the "Up next" slot. Member can change it.</td><td><code>sessions.slot</code></td></tr>
+          <tr><td>Starting heart rate</td><td>Optional 60-second count, then type the number</td><td><code>sessions.start_pulse_bpm</code></td></tr>
+          <tr><td>Hold steps</td><td>Stopwatch. Member taps to stop. Each hold saved as it finishes.</td><td><code>session_holds</code></td></tr>
+          <tr><td>Recovery steps</td><td>Countdown from <code>duration_seconds</code>, with optional background audio</td><td><code>user_settings.background_audio</code></td></tr>
+          <tr><td>Finishing pulse</td><td>Same as the starting pulse</td><td><code>sessions.end_pulse_bpm</code></td></tr>
+          <tr><td>Elapsed, Pause, Exit</td><td>Pausing stops timers. Exiting keeps it <code>in_progress</code> so it can be resumed today.</td><td><code>sessions.elapsed_seconds</code>, <code>status</code></td></tr>
+          <tr><td>Finishing</td><td>Sets status to <code>done</code>. The database then adds a check-in post to the member's cohort if sharing is on.</td><td>Trigger on <code>sessions</code></td></tr>
+        </tbody>
+      </table>
+      <p class="note">Base score is worked out by the database whenever a hold is saved. The app only reads <code>sessions.base_score</code>.</p>
+    </div>
+  </div>
+
+  <h2 id="screen-workout-log">Workout log</h2>
+  <div class="screen">
+    <figure><img src="{{img:workout-log}}" alt="Log a workout form with Hyrox selected"></figure>
+    <div>
+      <p>Logs training outside breathwork, so progress can be read against training load.</p>
+      <table>
+        <thead><tr><th>Field</th><th>Shown for</th><th>Column</th></tr></thead>
+        <tbody>
+          <tr><td>Date, Duration</td><td>All types</td><td><code>performed_on</code>, <code>duration_minutes</code></td></tr>
+          <tr><td>Workout type</td><td>All types</td><td><code>workout_type</code>: hyrox, run, strength, cycle, other</td></tr>
+          <tr><td>Total time</td><td>Hyrox, run, cycle</td><td><code>total_time_seconds</code></td></tr>
+          <tr><td>Run splits average</td><td>Hyrox, run</td><td><code>average_pace_seconds_per_km</code></td></tr>
+          <tr><td>Stations completed</td><td>Hyrox</td><td><code>stations_completed</code></td></tr>
+          <tr><td>Perceived effort (1 to 10)</td><td>All types</td><td><code>perceived_effort</code></td></tr>
+          <tr><td>Heart rate average and max</td><td>All types, optional</td><td><code>average_heart_rate</code>, <code>max_heart_rate</code></td></tr>
+          <tr><td>Notes</td><td>All types</td><td><code>notes</code></td></tr>
+        </tbody>
+      </table>
+      <p class="note">Fields that don't apply to a type are hidden and saved as empty. That's expected.</p>
+    </div>
+  </div>
+
+  <h2 id="screen-progress">Progress</h2>
+  <div class="screen">
+    <figure><img src="{{img:progress}}" alt="Progress screen with week 1 versus this week averages"></figure>
+    <div>
+      <p>The member is only ever measured against themselves.</p>
+      <table>
+        <thead><tr><th>Element</th><th>Behaviour</th><th>Data</th></tr></thead>
+        <tbody>
+          <tr><td>What you're working towards</td><td>The programme's goal text</td><td><code>programs.description</code></td></tr>
+          <tr><td>Hold 4 average</td><td>Week 1 average against this week</td><td><code>session_holds</code> where <code>hold_number = 4</code></td></tr>
+          <tr><td>Morning pulse average</td><td>Week 1 against this week</td><td><code>check_ins.pulse_bpm</code> linked to morning sessions</td></tr>
+          <tr><td>Base score average</td><td>Week 1 against this week</td><td><code>sessions.base_score</code></td></tr>
+          <tr><td>7, 14, 30 days</td><td>Chart range</td><td>Filter on <code>session_date</code></td></tr>
+          <tr><td>All, Morning, Noon, Evening</td><td>Slot filter</td><td><code>sessions.slot</code></td></tr>
+          <tr><td>Resting pulse chart, "What this means"</td><td>Daily line. Days with no entry shown as open circles. "What this means" opens plain-English help.</td><td><code>check_ins</code></td></tr>
+        </tbody>
+      </table>
+      <p class="note"><span class="tag tag-build">To build</span> A database function <code>get_progress_summary(enrolment_id, range_days, slot)</code> that returns these averages in one call. It isn't in the first migration.</p>
+    </div>
+  </div>
+
+  <h2 id="screen-group">Group</h2>
+  <div class="screen">
+    <figure><img src="{{img:group}}" alt="Cohort group feed with posts, comments and cheers"></figure>
+    <div>
+      <p>A feed for the member's cohort, like a Facebook group. Not a chat.</p>
+      <table>
+        <thead><tr><th>Element</th><th>Behaviour</th><th>Data</th></tr></thead>
+        <tbody>
+          <tr><td>"October cohort · 6 members"</td><td>Member count only. Members can't see a list of who else is in the cohort.</td><td><code>cohort_member_count()</code></td></tr>
+          <tr><td>Share my check-ins</td><td>When on, finishing a session posts "Morning done" with mood</td><td><code>cohort_members.share_to_group</code></td></tr>
+          <tr><td>Post box</td><td>Text post to this cohort</td><td><code>group_posts</code></td></tr>
+          <tr><td>Feed</td><td>Newest first. Author name and photo, time, slot chip, body.</td><td><code>group_feed</code> view (one read)</td></tr>
+          <tr><td>Comment under a post</td><td>Like Tom's reply to Mia</td><td><code>group_comments</code></td></tr>
+          <tr><td>Cheer</td><td>One per person per post, tap again to remove</td><td><code>group_cheers</code></td></tr>
+        </tbody>
+      </table>
+      <p class="note">When the member is in more than one cohort, show a cohort switcher at the top. Solo members see an empty state inviting them to join a cohort.</p>
+    </div>
+  </div>
+
+  <h2 id="screen-settings">Settings</h2>
+  <div class="screen">
+    <figure><img src="{{img:settings}}" alt="Settings: reminders, notifications, session audio"></figure>
+    <div>
+      <table>
+        <thead><tr><th>Section</th><th>Behaviour</th><th>Data</th></tr></thead>
+        <tbody>
+          <tr><td>Practice reminders</td><td>Time and on or off per slot. Defaults 07:00, 12:30, 20:30. Scheduled as local notifications on the phone.</td><td><code>session_reminders</code></td></tr>
+          <tr><td>Notifications</td><td>Gentle nudges, group activity, weekly summary</td><td><code>user_settings</code></td></tr>
+          <tr><td>Session audio</td><td>Background audio on or off, volume 0 to 100, sound</td><td><code>user_settings</code></td></tr>
+          <tr><td>Your data</td><td><strong>Export</strong> downloads CSV files. <strong>Delete account</strong> removes everything.</td><td>Edge function for export. Deleting the auth user cascades.</td></tr>
+        </tbody>
+      </table>
+      <p class="note">Add one line under Your data: "Your coach can see your sessions, check-ins and workouts." Coach access is automatic, so members should be told.</p>
+    </div>
+  </div>
+
+  <h2 id="screen-desktop">Desktop layout (reference)</h2>
+  <figure class="wide"><img src="{{img:desktop-today}}" alt="Desktop version of the Today screen"></figure>
+  <p>A wider layout of Today, with a sidebar instead of a tab bar. The app is mobile-first, so treat this as a reference for tablets rather than an MVP screen.</p>
+</section>
+
+<section class="page" id="roles" data-group="Product" data-title="Roles and sharing">
+  <h1>Roles and sharing</h1>
+  <p class="lede">Who sees what. These rules are enforced in the database, not just hidden in the app.</p>
+
+  <h2 id="access-matrix">Access matrix</h2>
+  <table>
+    <thead><tr><th>Data</th><th>The member</th><th>Cohort mates</th><th>Coach</th><th>Admin</th></tr></thead>
+    <tbody>
+      <tr><td>Sessions and holds</td><td>Full</td><td>No</td><td>Read, for dates in cohort</td><td>Read</td></tr>
+      <tr><td>Check-ins (mood, pulse, sleep)</td><td>Full</td><td>Mood only, through the feed</td><td>Read, for dates in cohort</td><td>Read</td></tr>
+      <tr><td>Workouts and notes</td><td>Full</td><td>No</td><td>Read, for dates in cohort</td><td>Read</td></tr>
+      <tr><td>Name and photo</td><td>Edit</td><td>Read</td><td>Read</td><td>Read</td></tr>
+      <tr><td>Cohort member list</td><td>Own row only</td><td>Count only</td><td>Full roster</td><td>Full</td></tr>
+      <tr><td>Posts, comments, cheers</td><td>Write own</td><td>Read</td><td>Read, delete posts</td><td>Read</td></tr>
+      <tr><td>Own role</td><td>Can't change</td><td>No</td><td>No</td><td>Changes it</td></tr>
+    </tbody>
+  </table>
+
+  <h2 id="coach-view">The coach's view</h2>
+  <p>Coaches use the same screens as members. A coach picks a cohort, then a member, and sees that member's Today, Progress and Workouts in read-only mode. No separate coach design exists or is needed for the MVP.</p>
+
+  <h2 id="admin-view">The admin's view</h2>
+  <p><span class="tag tag-open">Open question</span> For the MVP, admins manage programmes, steps and cohorts directly in the Supabase dashboard. An in-app admin area is a later decision.</p>
+
+  <h2 id="dates">Why membership has dates</h2>
+  <p>A member can leave one cohort and join another, or be in two at once. Each membership stores <code>joined_on</code> and <code>left_on</code>. A coach sees a member's data only for days that fall inside those dates, so a new coach doesn't inherit a member's history from another cohort.</p>
+</section>
+
+<!-- ============ DESIGN SYSTEM ============ -->
+<section class="page" id="design-colours" data-group="Design system" data-title="Colours">
+  <h1>Colours</h1>
+  <p class="lede">Sampled from the mockups. Warm paper backgrounds, a forest-green primary, and soft sage and clay accents for status.</p>
+  <h2 id="palette">Palette</h2>
+  <div class="swatches" id="swatches"></div>
+  <h2 id="colour-usage">Usage</h2>
+  <ul>
+    <li><strong>Forest</strong> is for primary actions (Start noon session, Post), selected chips, toggles that are on, and the active tab.</li>
+    <li><strong>Deep forest</strong> is for the guided session background and the "working towards" panel on Progress.</li>
+    <li><strong>Sage</strong> marks something done or shared. <strong>Clay</strong> marks something up next or needing attention.</li>
+    <li>Don't use pure white or pure black anywhere. Text is ink, backgrounds are paper or card.</li>
+  </ul>
+  <h2 id="colour-tokens">Tokens for the app</h2>
+  <pre><code id="colour-tokens-code"></code></pre>
+</section>
+
+<section class="page" id="design-type" data-group="Design system" data-title="Typography">
+  <h1>Typography</h1>
+  <p class="lede">A classic serif for headings and big numbers, a clean sans-serif for everything else.</p>
+  <h2 id="type-families">Families</h2>
+  <table>
+    <thead><tr><th>Role</th><th>Font</th><th>Used for</th></tr></thead>
+    <tbody>
+      <tr><td>Display</td><td><span class="serif">EB Garamond</span></td><td>Screen titles, greetings, the session timer, Progress headline</td></tr>
+      <tr><td>Interface</td><td>Inter</td><td>Everything else: body, labels, buttons, chips</td></tr>
+    </tbody>
+  </table>
+  <p>The mockup serif is a Garamond-style face. EB Garamond and Inter are both free on Google Fonts and load in Expo with <code>@expo-google-fonts</code>. Swap in the exact licensed fonts if the designer specifies them.</p>
+  <h2 id="type-scale">Scale</h2>
+  <div class="type-scale">
+    <div><span class="serif" style="font-size:64px;line-height:1">1:00</span><small>Timer · serif 64, regular</small></div>
+    <div><span class="serif" style="font-size:32px">Good afternoon</span><small>Screen title · serif 32, medium</small></div>
+    <div><span class="serif" style="font-size:22px">Release the pressure. Keep the edge.</span><small>Panel headline · serif 22</small></div>
+    <div><span style="font-size:17px;font-weight:600">How are you arriving today?</span><small>Card title · sans 17, semibold</small></div>
+    <div><span style="font-size:15px">Count your pulse for 60 seconds, or read it from your watch.</span><small>Body · sans 15</small></div>
+    <div><span style="font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--muted)">Today's practice</span><small>Section label · sans 12, uppercase, tracked</small></div>
+  </div>
+</section>
+
+<section class="page" id="design-components" data-group="Design system" data-title="Components">
+  <h1>Components</h1>
+  <p class="lede">The building blocks that repeat across every screen.</p>
+  <h2 id="component-buttons">Buttons</h2>
+  <div class="demo">
+    <button class="btn btn-primary">Start noon session</button>
+    <button class="btn btn-outline">Open group</button>
+    <span class="on-dark"><button class="btn btn-cream">Next: baseline test</button></span>
+  </div>
+  <table>
+    <thead><tr><th>Variant</th><th>Use</th></tr></thead>
+    <tbody>
+      <tr><td>Primary (forest, pill)</td><td>The one main action on a screen</td></tr>
+      <tr><td>Outline (forest border)</td><td>Secondary actions such as Open group, Cheer, What this means</td></tr>
+      <tr><td>Cream (on dark green)</td><td>The main action inside the guided session</td></tr>
+    </tbody>
+  </table>
+
+  <h2 id="component-chips">Choice chips</h2>
+  <div class="demo">
+    <span class="chip">Low</span><span class="chip">Flat</span><span class="chip chip-on">Okay</span><span class="chip">Good</span><span class="chip">Great</span>
+  </div>
+  <p>Single choice. Pill shape with a hairline border. Selected chip fills with forest.</p>
+
+  <h2 id="component-status">Status badges</h2>
+  <div class="demo">
+    <span class="badge badge-sage">Done</span><span class="badge badge-clay">Up next</span><span class="badge badge-stone">Later</span><span class="badge badge-sage">Morning done</span>
+  </div>
+
+  <h2 id="component-cards">Cards</h2>
+  <div class="demo">
+    <div class="card-demo">
+      <div class="card-icon">∿</div>
+      <div><strong>Morning</strong><br><span class="muted">Reminder 7:00 am</span></div>
+      <span class="badge badge-sage">Done</span>
+    </div>
+  </div>
+  <p>Card background on paper, 18 point corner radius, hairline border, no shadow. Session cards carry a square icon tile tinted to match their status.</p>
+
+  <h2 id="component-toggles">Toggles, sliders and inputs</h2>
+  <ul>
+    <li><strong>Toggle:</strong> forest track when on, warm stone track when off.</li>
+    <li><strong>Slider:</strong> forest fill, pale track, white thumb. Value shown on the right (60, 7 / 10).</li>
+    <li><strong>Input:</strong> card background, hairline border, 12 point radius, muted placeholder that shows an example ("e.g. 62").</li>
+  </ul>
+
+  <h2 id="component-tabs">Tab bar</h2>
+  <p>Five tabs with a thin line icon above a label: Today, Progress, Workouts, Group, Settings. Active tab in forest, others muted. Hidden during the guided session.</p>
+</section>
+
+<section class="page" id="design-voice" data-group="Design system" data-title="Voice and copy">
+  <h1>Voice and copy</h1>
+  <p class="lede">Calm, plain and personal. The app is a quiet coach, not a cheerleader.</p>
+  <h2 id="voice-principles">Principles</h2>
+  <ul>
+    <li><strong>Talk to one person.</strong> "How are you arriving today?", not "Log your mood".</li>
+    <li><strong>Measure against themselves.</strong> Never compare members with each other.</li>
+    <li><strong>Say what a button does.</strong> "Start noon session", "Next: baseline test".</li>
+    <li><strong>Gentle by default.</strong> One reminder per session, no repeats.</li>
+  </ul>
+  <h2 id="voice-examples">Examples from the designs</h2>
+  <table>
+    <thead><tr><th>Place</th><th>Copy</th></tr></thead>
+    <tbody>
+      <tr><td>Progress headline</td><td>Release the pressure. Keep the edge.</td></tr>
+      <tr><td>Pulse step</td><td>Count your pulse for 60 seconds, or read it from your watch.</td></tr>
+      <tr><td>Workout notes placeholder</td><td>How did your breathing feel?</td></tr>
+      <tr><td>Post box placeholder</td><td>How did today's practice go?</td></tr>
+      <tr><td>Share toggle</td><td>Session done, mood. Never pulse or notes.</td></tr>
+    </tbody>
+  </table>
+  <h2 id="voice-safety">Safety copy</h2>
+  <p>Breath holds carry real risk. Every guided session shows "Safety guidance: confirm with course author" until the course author supplies final wording. Goals are aims, not guaranteed or medical outcomes.</p>
+</section>
+
+<!-- ============ ARCHITECTURE ============ -->
+<section class="page" id="stack" data-group="Architecture" data-title="Tech stack">
+  <h1>Tech stack</h1>
+  <p class="lede">A tech stack is the set of tools an app is built with, in the way a kitchen is an oven, a fridge and a set of knives. This page lists each tool and why it was chosen. If you're not a developer, the "Why" column is the part worth reading.</p>
+  <h2 id="stack-table">Stack</h2>
+  <table>
+    <thead><tr><th>Layer</th><th>Choice</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td>App</td><td>React Native with Expo (managed), TypeScript</td><td>Ready-made pieces for Google sign-in, notifications, secure storage and audio without native code</td></tr>
+      <tr><td>Navigation</td><td>Expo Router</td><td>File-based routes, matches the five tabs plus a full-screen session</td></tr>
+      <tr><td>Database and auth</td><td>Supabase (Postgres)</td><td>Access rules live in the database, types are generated from it</td></tr>
+      <tr><td>Server logic</td><td>Postgres functions and triggers, Supabase edge functions for CSV export</td><td>Base score and check-in posts happen in one place</td></tr>
+      <tr><td>Reminders</td><td>Expo Notifications, scheduled locally</td><td>No push server needed for the MVP</td></tr>
+      <tr><td>Session audio</td><td>Expo Audio</td><td>Background sound during recoveries</td></tr>
+      <tr><td>Builds and releases</td><td>Expo Application Services</td><td>Cloud builds and App Store and Google Play submission</td></tr>
+      <tr><td>Package manager</td><td>pnpm</td><td>Matches the database scripts</td></tr>
+    </tbody>
+  </table>
+
+  <h2 id="folder-structure">Folder structure</h2>
+  <pre><code>breathe/
+├─ app/                     Expo Router screens
+│  ├─ (tabs)/               today, progress, workouts, group, settings
+│  ├─ session/[slot].tsx    full-screen guided session
+│  └─ sign-in.tsx
+├─ src/
+│  ├─ components/           shared UI (Button, Chip, Card, Badge)
+│  ├─ features/             one folder per screen's logic and queries
+│  ├─ lib/supabase.ts       the single Supabase client
+│  ├─ theme/                colour and type tokens
+│  └─ types/
+│     ├─ database.ts        generated, never edited
+│     └─ databaseTypes.ts   readable aliases
+├─ supabase/
+│  ├─ migrations/
+│  ├─ tests/
+│  └─ seed.sql
+└─ docs/build-guide.md</code></pre>
+</section>
+
+<section class="page" id="auth" data-group="Architecture" data-title="Sign-in">
+  <h1>Sign-in with Google</h1>
+  <p class="lede">How a member gets into the app. They sign in with the Google account they already have, so there is no And Breathe password to remember, store or reset. The steps below are what happens behind the scenes in the second or two that takes.</p>
+  <h2 id="auth-flow">Flow</h2>
+  <ol>
+    <li>The app uses the native Google sign-in sheet and receives a Google ID token.</li>
+    <li>It passes the token to <code>supabase.auth.signInWithIdToken({ provider: 'google', token })</code>.</li>
+    <li>Supabase creates the user on first sign-in. A database trigger then creates the profile (name and photo from Google), default settings and the three default reminders.</li>
+    <li>The session is stored on the phone so the member stays signed in, following Supabase's React Native guide.</li>
+  </ol>
+  <h2 id="auth-setup">Setup checklist</h2>
+  <ul>
+    <li>Create Google OAuth client IDs for iOS, Android and web in Google Cloud.</li>
+    <li>Turn on the Google provider in Supabase and add all three client IDs.</li>
+    <li>Add the iOS URL scheme and Android signing fingerprint in the Expo config.</li>
+    <li>Make the first admin by setting <code>profiles.app_role</code> to <code>admin</code> in the Supabase dashboard. Members can never change their own role.</li>
+  </ul>
+</section>
+
+<section class="page" id="code-standards" data-group="Architecture" data-title="Code standards">
+  <h1>Code standards</h1>
+  <p class="lede">The house rules for how the code is written, so any developer (or Claude) can pick the project up later and find their way around. Follow <a href="https://github.com/activatus-life/code-standards">activatus-life/code-standards</a> in full. The rules below are the ones already applied to the database work.</p>
+  <h2 id="standards-applied">Applied so far</h2>
+  <ul>
+    <li>Files stay under 300 lines. Split by feature when they grow.</li>
+    <li>Names are full English words: <code>average_heart_rate</code>, not <code>avg_hr</code>.</li>
+    <li>Type names end in <code>Type</code>: <code>SessionType</code>, <code>MoodType</code>.</li>
+  </ul>
+</section>
+
+<!-- ============ DATABASE ============ -->
+<section class="page" id="db-overview" data-group="Database" data-title="Overview">
+  <h1>Database overview</h1>
+  <p class="lede">The database is where everything the app remembers is kept: who the members are, which sessions they've done, what they've posted. Think of it as a set of linked spreadsheets. There are seventeen of them in five areas: sixteen tables and one read-only view.</p>
+  <h2 id="db-areas">Areas</h2>
+  <div id="db-area-summary"></div>
+  <h2 id="db-relationships">How it fits together</h2>
+  <pre><code>programs ─┬─ program_blocks
+          ├─ protocol_steps
+          ├─ cohorts ── cohort_members ── profiles
+          └─ enrolments ── sessions ─┬─ session_holds
+                                     └─ check_ins
+profiles ─┬─ user_settings
+          ├─ session_reminders
+          └─ workouts
+cohorts ── group_posts ─┬─ group_comments
+                        └─ group_cheers</code></pre>
+  <h2 id="db-principles">Principles</h2>
+  <ul>
+    <li><strong>Worked out, not stored:</strong> current week, "Up next" and Progress averages are calculated from dates and sessions.</li>
+    <li><strong>One exception:</strong> <code>sessions.base_score</code> is stored, but only ever written by the database from the holds, so reads are fast and the formula lives in one place.</li>
+    <li><strong>Deleting a person</strong> removes everything they own in one step.</li>
+  </ul>
+</section>
+
+<section class="page" id="db-tables" data-group="Database" data-title="Tables">
+  <h1>Tables</h1>
+  <p class="lede">A table is like one sheet in a spreadsheet. Each row is one thing (a member, a session, a post) and each column is one fact about it. This page lists every table, what it's for, who can access it, and its columns. A <span class="key">key</span> marks the primary key, the column that tells one row from another, and <span class="link">link</span> marks a column that points to another table.</p>
+  <div id="db-tables-list"></div>
+</section>
+
+<section class="page" id="db-enums" data-group="Database" data-title="Fixed value lists">
+  <h1>Fixed value lists</h1>
+  <p class="lede">Some answers only ever come from a short, fixed list. Mood, for example, is always low, flat, okay, good or great. Keeping these lists in the database means the app can never save a value that isn't on one. Developers call them Postgres enums. They become TypeScript union types automatically.</p>
+  <h2 id="enum-list">All lists</h2>
+  <table>
+    <thead><tr><th>Name</th><th>Values</th><th>Used by</th></tr></thead>
+    <tbody>
+      <tr><td><code>app_role</code></td><td>member, admin</td><td>profiles</td></tr>
+      <tr><td><code>cohort_role</code></td><td>member, coach</td><td>cohort_members</td></tr>
+      <tr><td><code>session_slot</code></td><td>morning, noon, evening</td><td>sessions, reminders, protocol steps</td></tr>
+      <tr><td><code>session_status</code></td><td>pending, in_progress, done, skipped</td><td>sessions</td></tr>
+      <tr><td><code>mood</code></td><td>low, flat, okay, good, great</td><td>check_ins</td></tr>
+      <tr><td><code>sleep_quality</code></td><td>poor, fair, good, great</td><td>check_ins</td></tr>
+      <tr><td><code>workout_type</code></td><td>hyrox, run, strength, cycle, other</td><td>workouts</td></tr>
+      <tr><td><code>post_kind</code></td><td>manual, check_in</td><td>group_posts</td></tr>
+      <tr><td><code>protocol_step_type</code></td><td>pulse, base, hold, recovery</td><td>protocol_steps</td></tr>
+      <tr><td><code>enrolment_status</code></td><td>active, completed, left</td><td>enrolments</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="page" id="db-logic" data-group="Database" data-title="Functions and triggers">
+  <h1>Functions and triggers</h1>
+  <p class="lede">Small jobs the database does by itself, so the app never has to remember to. A trigger runs automatically when something happens, such as a session being finished. A function is a job the app can ask for by name.</p>
+  <h2 id="db-triggers">Triggers</h2>
+  <table>
+    <thead><tr><th>When</th><th>What happens</th></tr></thead>
+    <tbody>
+      <tr><td>A new user signs in with Google</td><td>Creates their profile, default settings and three reminders</td></tr>
+      <tr><td>A hold is added, changed or removed</td><td>Recalculates <code>sessions.base_score</code></td></tr>
+      <tr><td>A session changes to done</td><td>Posts a check-in to each cohort the member shares with, for that session's programme</td></tr>
+      <tr><td>A member edits their cohort membership</td><td>Allows only the sharing toggle and leaving. Everything else needs an admin.</td></tr>
+      <tr><td>Profiles, settings or posts are updated</td><td>Stamps <code>updated_at</code></td></tr>
+    </tbody>
+  </table>
+  <h2 id="db-functions">Functions the app can call</h2>
+  <table>
+    <thead><tr><th>Function</th><th>Returns</th></tr></thead>
+    <tbody>
+      <tr><td><code>cohort_member_count(cohort_id)</code></td><td>Number of members, for "6 members"</td></tr>
+      <tr><td><code>calculate_base_score(session_id)</code></td><td>The base score. For now, the best hold in seconds.</td></tr>
+      <tr><td><code>get_progress_summary(…)</code></td><td><span class="tag tag-build">To build</span> Week 1 against this week averages for Progress</td></tr>
+    </tbody>
+  </table>
+  <h2 id="db-base-score">Base score</h2>
+  <p>A placeholder formula until the course author supplies the real one. Changing it means replacing <code>calculate_base_score</code> in a new migration, then running a one-off update to recalculate past sessions. The app needs no change.</p>
+  <p>A rating scale (300 seconds, five minutes, as "Amazing") is noted for later and not built.</p>
+</section>
+
+<section class="page" id="db-types" data-group="Database" data-title="Types and testing">
+  <h1>Types and testing</h1>
+  <p class="lede">Two safety nets. Types tell the code exactly what shape each piece of information is, so mistakes are caught while the app is being written and not on a member's phone. Tests are automatic checks that the privacy rules still hold after every change.</p>
+  <h2 id="types-scripts">Scripts</h2>
+  <table>
+    <thead><tr><th>Command</th><th>Does</th></tr></thead>
+    <tbody>
+      <tr><td><code>pnpm db:start</code></td><td>Starts Supabase locally</td></tr>
+      <tr><td><code>pnpm db:reset</code></td><td>Rebuilds the local database from migrations and seed data</td></tr>
+      <tr><td><code>pnpm db:test</code></td><td>Runs the database tests</td></tr>
+      <tr><td><code>pnpm db:types</code></td><td>Generates <code>src/types/database.ts</code> from the local database</td></tr>
+      <tr><td><code>pnpm db:types:check</code></td><td>Fails if the generated types are out of date. Run it in CI.</td></tr>
+    </tbody>
+  </table>
+  <h2 id="types-usage">Using the types</h2>
+  <pre><code>import type { SessionType, MoodType } from '@/types/databaseTypes'
+import { supabase } from '@/lib/supabase'
+
+const { data } = await supabase
+  .from('sessions')
+  .select('*, session_holds(*)')
+  .eq('session_date', today)
+// data is fully typed from the database</code></pre>
+  <h2 id="types-tests">Database tests</h2>
+  <ul>
+    <li>Base score equals the best hold.</li>
+    <li>New users get three default reminders.</li>
+    <li>A member can't read another member's workouts.</li>
+    <li>A member can't list other members of a cohort.</li>
+  </ul>
+  <p>Add a test for every new access rule.</p>
+</section>
+
+<!-- ============ BUILD PLAN ============ -->
+<section class="page" id="build-plan" data-group="Build plan" data-title="Milestones">
+  <h1>Build plan</h1>
+  <p class="lede">Build in this order. A milestone is one chunk of work with a clear finish line, and each one ends in something a person can try on a phone. The "Done when" column is how you tell a milestone is finished.</p>
+  <table class="milestones">
+    <thead><tr><th>#</th><th>Milestone</th><th>Done when</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><strong>Foundations.</strong> Expo app, theme tokens, fonts, tab bar, Supabase client, migrations applied, types generated.</td><td>App opens on a phone with five empty tabs in the right colours and fonts.</td></tr>
+      <tr><td>2</td><td><strong>Sign-in.</strong> Google sign-in, signed-in state kept between launches, sign out.</td><td>A new Google user lands on Today with a profile and default reminders.</td></tr>
+      <tr><td>3</td><td><strong>Enrol and Today.</strong> Pick a programme, current week and block, three session cards, mood, sleep and pulse check-in.</td><td>Today matches the mockup with real data.</td></tr>
+      <tr><td>4</td><td><strong>Guided session.</strong> Steps from the database, timers, holds, pulses, pause, resume, finish.</td><td>A finished session shows Done on Today with a base score.</td></tr>
+      <tr><td>5</td><td><strong>Workout log.</strong> Form with type-specific fields, list of past workouts.</td><td>A Hyrox workout saves and reloads.</td></tr>
+      <tr><td>6</td><td><strong>Progress.</strong> Progress summary function, headline averages, charts, range and slot filters.</td><td>Week 1 against this week reads correctly from test data.</td></tr>
+      <tr><td>7</td><td><strong>Group.</strong> Feed, post, comment, cheer, share toggle, automatic check-in posts, cohort switcher.</td><td>Two test members in one cohort see each other's posts but not each other's data.</td></tr>
+      <tr><td>8</td><td><strong>Settings.</strong> Reminders scheduled on the phone, notification and audio choices, CSV export, delete account.</td><td>Changing a reminder time moves the phone notification.</td></tr>
+      <tr><td>9</td><td><strong>Coach view.</strong> Cohort and member picker, member screens in read-only mode.</td><td>A coach sees a member's data only for dates they were in the cohort.</td></tr>
+      <tr><td>10</td><td><strong>Release.</strong> App icons, splash, Expo Application Services builds, TestFlight and Google Play internal testing.</td><td>The client installs a test build.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="page" id="open-questions" data-group="Build plan" data-title="Open questions">
+  <h1>Open questions</h1>
+  <p class="lede">Things nobody has decided yet, and who needs to decide them. Build the simplest version of each and flag it. None of these block milestone 1 or 2.</p>
+  <table>
+    <thead><tr><th>#</th><th>Question</th><th>Who answers</th><th>Simplest version for now</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>What is the real base score formula?</td><td>Course author</td><td>Best hold in seconds</td></tr>
+      <tr><td>2</td><td>Is the "Base" step a separate test, or part of the holds? What does it record?</td><td>Course author</td><td>Show the step with its instructions. Record nothing extra.</td></tr>
+      <tr><td>3</td><td>Final hold counts, recovery lengths and safety wording per week</td><td>Course author</td><td>Seeded placeholders: four holds, three-minute recoveries</td></tr>
+      <tr><td>4</td><td>Do admins need screens in the app?</td><td>Client</td><td>Manage content in the Supabase dashboard</td></tr>
+      <tr><td>5</td><td>When a member leaves a cohort, do their old posts stay?</td><td>Client</td><td>Posts stay</td></tr>
+      <tr><td>6</td><td>Which background sounds are available?</td><td>Client</td><td>Soft rain only</td></tr>
+      <tr><td>7</td><td>Is the desktop layout in scope?</td><td>Client</td><td>No, phone only</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============ APPENDIX ============ -->
+<section class="page" id="appendix-migrations" data-group="Appendix" data-title="Migration files">
+  <h1>Migration files</h1>
+  <p class="lede">A migration is a file of instructions that builds or changes the database, a bit like a recipe. This is the complete first database migration, for a developer or Claude to copy. Click a file name to open it. Copy each file into <code>supabase/migrations/</code> with the same name, then run <code>pnpm db:reset</code>.</p>
+  {{migrations}}
+</section>
