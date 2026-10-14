@@ -2,7 +2,6 @@
 
 create type public.app_role as enum ('member', 'admin');
 create type public.cohort_role as enum ('member', 'coach');
-create type public.session_slot as enum ('morning', 'noon', 'evening');
 create type public.session_status as enum ('pending', 'in_progress', 'done', 'skipped');
 create type public.mood as enum ('low', 'flat', 'okay', 'good', 'great');
 create type public.sleep_quality as enum ('poor', 'fair', 'good', 'great');
@@ -34,9 +33,23 @@ create table public.user_settings (
   updated_at timestamptz not null default now()
 );
 
+-- Session times. A table rather than an enum so an admin can add one (noon, night)
+-- in the dashboard without an app release. Starts with morning and evening.
+create table public.session_slots (
+  id text primary key check (id ~ '^[a-z][a-z_]*$'),
+  label text not null,
+  sort_order smallint not null,
+  default_reminder_time time not null,
+  is_active boolean not null default true
+);
+
+insert into public.session_slots (id, label, sort_order, default_reminder_time) values
+  ('morning', 'Morning', 1, '07:00'),
+  ('evening', 'Evening', 2, '20:30');
+
 create table public.session_reminders (
   user_id uuid not null references public.profiles (id) on delete cascade,
-  slot public.session_slot not null,
+  slot text not null references public.session_slots (id),
   reminder_time time not null,
   is_enabled boolean not null default true,
   primary key (user_id, slot)

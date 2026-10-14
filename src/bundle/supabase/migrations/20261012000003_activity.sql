@@ -5,7 +5,7 @@ create table public.sessions (
   user_id uuid not null references public.profiles (id) on delete cascade,
   enrolment_id uuid not null references public.enrolments (id) on delete cascade,
   session_date date not null,
-  slot public.session_slot not null,
+  slot text not null references public.session_slots (id),
   status public.session_status not null default 'pending',
   started_at timestamptz,
   completed_at timestamptz,
@@ -28,12 +28,14 @@ create table public.session_holds (
   unique (session_id, hold_number)
 );
 
--- One per session. Sleep is only asked on the first check-in of the day (app rule).
+-- One per session. Mood is asked before the session ("How are you arriving?") and
+-- again after it. Sleep is only asked on the first check-in of the day (app rule).
 create table public.check_ins (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references public.profiles (id) on delete cascade,
   session_id uuid references public.sessions (id) on delete set null,
-  mood public.mood not null,
+  mood_before public.mood not null,
+  mood_after public.mood,
   pulse_bpm smallint check (pulse_bpm between 20 and 250),
   sleep_quality public.sleep_quality,
   created_at timestamptz not null default now()

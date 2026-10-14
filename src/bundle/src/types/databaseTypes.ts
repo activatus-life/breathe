@@ -5,6 +5,7 @@ import type { Enums, Tables, TablesInsert, TablesUpdate } from './database'
 export type ProfileType = Tables<'profiles'>
 export type UserSettingsType = Tables<'user_settings'>
 export type SessionReminderType = Tables<'session_reminders'>
+export type SessionSlotType = Tables<'session_slots'>
 
 export type ProgramType = Tables<'programs'>
 export type ProgramBlockType = Tables<'program_blocks'>
@@ -12,6 +13,7 @@ export type ProtocolStepType = Tables<'protocol_steps'>
 export type CohortType = Tables<'cohorts'>
 export type CohortMemberType = Tables<'cohort_members'>
 export type EnrolmentType = Tables<'enrolments'>
+export type LiveCallType = Tables<'live_calls'>
 
 export type SessionType = Tables<'sessions'>
 export type SessionInsertType = TablesInsert<'sessions'>
@@ -27,7 +29,14 @@ export type GroupCommentType = Tables<'group_comments'>
 export type GroupCheerType = Tables<'group_cheers'>
 export type GroupFeedItemType = Tables<'group_feed'>
 
-export type SessionSlotType = Enums<'session_slot'>
+export type HealthConnectionType = Tables<'health_connections'>
+export type HealthReadingType = Tables<'health_readings'>
+export type HealthReadingInsertType = TablesInsert<'health_readings'>
+export type SleepPeriodType = Tables<'sleep_periods'>
+
 export type MoodType = Enums<'mood'>
 export type SleepQualityType = Enums<'sleep_quality'>
 export type WorkoutKindType = Enums<'workout_type'>
+export type HealthSourceType = Enums<'health_source'>
+export type HealthReadingKindType = Enums<'health_reading_type'>
+export type SleepStageType = Enums<'sleep_stage'>

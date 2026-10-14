@@ -33,23 +33,24 @@
       <tr><td><strong>Start here</strong></td><td>This overview, and how to hand the guide to Claude</td><td>Everyone</td></tr>
       <tr><td><strong>Product</strong></td><td>What each screen does, and who is allowed to see what</td><td>Everyone</td></tr>
       <tr><td><strong>Design system</strong></td><td>The look and feel: colours, fonts, buttons and the tone of the wording</td><td>Everyone, designers especially</td></tr>
-      <tr><td><strong>Architecture</strong></td><td>The tools the app is built with, how sign-in works and the rules for writing the code</td><td>Developers</td></tr>
+      <tr><td><strong>Architecture</strong></td><td>The tools the app is built with, sign-in, wearables and the rules for writing the code</td><td>Developers</td></tr>
       <tr><td><strong>Database</strong></td><td>Where the app keeps its information, and the rules that protect it</td><td>Developers</td></tr>
       <tr><td><strong>Build plan</strong></td><td>The order to build things in, and the questions still to be answered</td><td>Everyone</td></tr>
+      <tr><td><strong>Quote</strong></td><td>How the build runs through Launchpad, stage by stage, with hours, assumptions and what isn't included</td><td>The client</td></tr>
       <tr><td><strong>Appendix</strong></td><td>The actual database files, ready to copy</td><td>Developers</td></tr>
     </tbody>
   </table>
 
   <h2 id="what-it-is">What the app is</h2>
-  <p>And Breathe is a breathwork app that takes a member through a multi-week programme. Each day has three short guided sessions (morning, noon and evening) built around breath holds, pulse readings and recovery. Members log their workouts, watch their progress against themselves, and share their practice with a cohort.</p>
+  <p>And Breathe is a breathwork app that takes a member through a multi-week programme. Each day has two short guided sessions (morning and evening) built around breath holds, pulse readings and recovery. Each week continues the same programme, building tolerance as it goes. Members log their workouts, watch their progress against themselves, can choose to share their practice with a cohort group, and can join live breathwork sessions and coaching calls.</p>
 
   <h2 id="who-uses-it">Who uses it</h2>
   <table>
     <thead><tr><th>Person</th><th>What they do</th></tr></thead>
     <tbody>
-      <tr><td><strong>Member</strong></td><td>Does the daily sessions, checks in, logs workouts, posts in their cohort group. Can be in several programmes and cohorts, or none (solo).</td></tr>
+      <tr><td><strong>Member</strong></td><td>Does the daily sessions, checks in, logs workouts, and joins live calls. Can choose to join their cohort's group and post there. Can be in several programmes and cohorts, or none (solo).</td></tr>
       <tr><td><strong>Coach</strong></td><td>A role inside one cohort. Sees the cohort roster and every member's full data for the dates that member was in the cohort.</td></tr>
-      <tr><td><strong>Admin</strong></td><td>A global account type. Creates programmes, breath-hold steps and cohorts, and assigns coaches.</td></tr>
+      <tr><td><strong>Admin</strong></td><td>A global account type. Creates programmes, breath-hold steps, session times, cohorts and live calls, and assigns coaches.</td></tr>
     </tbody>
   </table>
 
@@ -60,12 +61,17 @@
       <tr><td>App framework</td><td>React Native with Expo, written in TypeScript</td></tr>
       <tr><td>Builds and store releases</td><td>Expo Application Services</td></tr>
       <tr><td>Backend</td><td>Supabase: Postgres database, authentication, edge functions</td></tr>
-      <tr><td>Sign-in</td><td>Google only, through Supabase authentication</td></tr>
+      <tr><td>Sign-in</td><td>Email only. The member types their email and gets a sign-in link and a six-digit code. No Google or Apple sign-in, so it works for any company the app is sold to later.</td></tr>
       <tr><td>Types</td><td>Generated from the database into the app, never written by hand</td></tr>
       <tr><td>Programme content</td><td>Lives in the database, so courses can change week to week without an app release</td></tr>
       <tr><td>Coach access</td><td>Automatic. No setting for the member to turn it off.</td></tr>
-      <tr><td>Sharing to the group</td><td>One toggle. Shares "session done" and mood with the cohort. Never pulse, holds or notes.</td></tr>
-      <tr><td>Mood</td><td>Asked once per session. Sleep is asked only on the first check-in of the day.</td></tr>
+      <tr><td>Session times</td><td>Morning and evening for now. Stored as a list an admin can add to (noon, night) without an app release.</td></tr>
+      <tr><td>Joining the group</td><td>The member's choice ("Join the group" or "Not now"). Off until they join.</td></tr>
+      <tr><td>Sharing to the group</td><td>One toggle, off by default. Shares "session done" and mood with the group. Never pulse, holds or notes. Automatic sharing is a version 2 idea.</td></tr>
+      <tr><td>Mood</td><td>Asked before the session and again after it. Sleep is asked only on the first check-in of the day.</td></tr>
+      <tr><td>Live calls</td><td>Breathwork sessions and coaching calls are held in Zoom, Google Meet or similar. The app shows the next one and a Join call button that opens the link.</td></tr>
+      <tr><td>The six weeks</td><td>The same programme every week, building tolerance. Walking breath holds may be added later.</td></tr>
+      <tr><td>Wearables</td><td>Apple Watch first, through Apple Health. The data follows Apple Health's layout with plain-English names. Garmin comes next.</td></tr>
       <tr><td>Swapping cohorts</td><td>Progress is kept. Data belongs to the member, not the cohort.</td></tr>
       <tr><td>Several programmes at once</td><td>Allowed. The member switches programme from a menu.</td></tr>
       <tr><td>Data export</td><td>CSV files</td></tr>
@@ -86,8 +92,14 @@
       <tr><td><strong>Types</strong></td><td>Labels that tell the code what shape each piece of information is, so mistakes are caught early</td></tr>
       <tr><td><strong>Repository</strong></td><td>The project folder that holds all the app's code, with a history of every change</td></tr>
       <tr><td><strong>Markdown</strong></td><td>A simple plain-text file format, ending in <code>.md</code>, that AI assistants read easily</td></tr>
-      <tr><td><strong>Milestone</strong></td><td>One chunk of the build with a clear finish line</td></tr>
+      <tr><td><strong>Feature</strong></td><td>One part of the app, such as sign-in or the Group screen, built as a set of tickets. Each one ends in something you can try on a phone.</td></tr>
+      <tr><td><strong>Pitch</strong></td><td>The first stage: working out exactly what the product is, by asking questions until nothing has to be guessed</td></tr>
+      <tr><td><strong>Product Definition</strong></td><td>The detailed description of the app that comes out of the Pitch. This guide is it.</td></tr>
+      <tr><td><strong>Assumption</strong></td><td>Something not confirmed yet. The simplest version is used, and flagged, until someone decides.</td></tr>
+      <tr><td><strong>Draft Ticket and Linear Ticket</strong></td><td>One small piece of work. Draft while it's being planned, Linear once it's approved and ready to build.</td></tr>
+      <tr><td><strong>UAT</strong></td><td>User acceptance testing: you try the app and confirm it does the right thing</td></tr>
       <tr><td><strong>MVP</strong></td><td>Minimum viable product: the first version, with only what's needed to be useful</td></tr>
+      <tr><td><strong>Session time</strong></td><td>When a session happens in the day: morning or evening for now. Developers call these slots.</td></tr>
       <tr><td><strong>Cohort</strong></td><td>A group of members going through a programme together, with a coach</td></tr>
     </tbody>
   </table>
@@ -116,29 +128,29 @@
     <li>Use <strong>Download for Claude</strong> at the top of the page. It saves the whole guide as one Markdown file, a plain-text copy that Claude reads easily.</li>
     <li>Put that file in the root of the app repository as <code>docs/build-guide.md</code>. In other words, inside the app's project folder, in a folder called <code>docs</code>, renamed to <code>build-guide.md</code>.</li>
     <li>Add the database migration files from the <a href="#appendix-migrations">appendix</a> to <code>supabase/migrations/</code>. These are the instructions that set up the database.</li>
-    <li>Ask Claude to work through the <a href="#build-plan">build plan</a> one milestone at a time. The starter prompt below does this for you.</li>
+    <li>Ask Claude to work through the <a href="#build-plan">build plan</a> one feature at a time. The starter prompt below does this for you.</li>
   </ol>
   <p class="note">The downloaded file has no pictures in it. The full guide, with every screenshot, is online at <a href="https://breathe-app-scope.vercel.app/">https://breathe-app-scope.vercel.app/</a>. The starter prompt gives Claude that link too.</p>
 
   <h2 id="starter-prompt">Starter prompt</h2>
-  <p>A prompt is just the message you send to Claude. Copy the one below and paste it in as your first message. It tells Claude to read the guide before doing anything, to build in order, and to stop after each milestone.</p>
+  <p>A prompt is just the message you send to Claude. Copy the one below and paste it in as your first message. It tells Claude to read the guide before doing anything, to build in order, and to stop after each feature.</p>
   <pre><code>Read docs/build-guide.md fully before writing any code.
 The same guide, with the screen mockups, is online at
 https://breathe-app-scope.vercel.app/
 Build the And Breathe member app it describes, following
-the build plan one milestone at a time. Follow the code
+the build plan one feature at a time. Follow the code
 standards and design system in the guide exactly. Use the
 existing Supabase migrations and generated types; do not
 change the database without writing a new migration.
-After each milestone, stop and summarise what you built
+After each feature, stop and summarise what you built
 and anything in the guide that was unclear.</code></pre>
 
   <h2 id="what-to-expect">What to expect</h2>
   <ul>
-    <li><strong>It builds in ten steps.</strong> The <a href="#build-plan">build plan</a> lists them. Each one ends in something you can open on a phone and try.</li>
+    <li><strong>It builds in eleven steps.</strong> The <a href="#build-plan">build plan</a> lists them. Each one ends in something you can open on a phone and try.</li>
     <li><strong>It stops and reports.</strong> After each step Claude summarises what it built and anything it found unclear. Read that, try the app, then tell it to carry on.</li>
     <li><strong>You can talk to it normally.</strong> "The Today screen doesn't match the picture" is a perfectly good instruction.</li>
-    <li><strong>Some things aren't decided yet.</strong> They're listed under <a href="#open-questions">Open questions</a>. Claude builds the simplest version of each and flags it, so nothing gets stuck waiting.</li>
+    <li><strong>Some things aren't decided yet.</strong> They're listed under <a href="#open-questions">Assumptions</a>. Claude builds the simplest version of each and flags it, so nothing gets stuck waiting.</li>
     <li><strong>A person still checks the work.</strong> Claude does the typing. Someone needs to try each step and say whether it's right.</li>
   </ul>
 
@@ -149,14 +161,26 @@ and anything in the guide that was unclear.</code></pre>
     <li><strong>Never hand-edit</strong> <code>src/types/database.ts</code>.</li>
     <li><strong>Keep the "Concept · Example data" badges out</strong> of the real app. They only mark the mockups.</li>
     <li><strong>Breath-hold safety copy and timings</strong> must come from the course author before release. The seeded values are placeholders.</li>
-    <li>Where this guide says <span class="tag tag-open">Open question</span>, build the simplest version and flag it, rather than inventing a rule.</li>
+    <li>Where this guide says <span class="tag tag-open">Assumption</span>, build the simplest version and flag it, rather than inventing a rule.</li>
   </ul>
 </section>
 
 <!-- ============ PRODUCT ============ -->
 <section class="page" id="screens" data-group="Product" data-title="Screens">
   <h1>Screens</h1>
-  <p class="lede">Six member screens behind a five-tab bar (Today, Progress, Workouts, Group, Settings), plus the full-screen guided session. Each one is shown below with a picture and a table of what every part does. The last column of each table is for developers: it says where that piece of information is kept.</p>
+  <p class="lede">Six member screens behind a five-tab bar (Today, Progress, Workouts, Group, Settings), plus sign-in and the full-screen guided session. The mockups show three sessions a day, but version 1 has two: morning and evening. Each one is shown below with a picture and a table of what every part does. The last column of each table is for developers: it says where that piece of information is kept.</p>
+
+  <h2 id="screen-sign-in">Sign-in</h2>
+  <p>No screenshot yet. Sign-in has three short steps, then a one-off question for new members.</p>
+  <table>
+    <thead><tr><th>Step</th><th>Behaviour</th><th>Data</th></tr></thead>
+    <tbody>
+      <tr><td>Enter your email</td><td>One field and a Continue button. No password.</td><td><code>supabase.auth.signInWithOtp</code></td></tr>
+      <tr><td>Check your email</td><td>"We've sent a link and a code to …". The member either taps the link (it opens the app) or types the six-digit code here.</td><td><code>supabase.auth.verifyOtp</code></td></tr>
+      <tr><td>Signed in</td><td>Stays signed in between launches until they sign out</td><td>Session stored on the phone</td></tr>
+      <tr><td>What should we call you?</td><td>Shown once, the first time, because email sign-in carries no name. Photo is optional and can be added later in Settings.</td><td><code>profiles.display_name</code>, <code>avatar_url</code></td></tr>
+    </tbody>
+  </table>
 
   <h2 id="screen-today">Today</h2>
   <div class="screen">
@@ -167,9 +191,10 @@ and anything in the guide that was unclear.</code></pre>
         <thead><tr><th>Element</th><th>Behaviour</th><th>Data</th></tr></thead>
         <tbody>
           <tr><td>Date and greeting</td><td>Good morning, afternoon or evening, from the member's time zone</td><td><code>profiles.timezone</code></td></tr>
-          <tr><td>"Week 3 of 6 · CO₂ tolerance block"</td><td>Week worked out from the enrolment start date. Block found by week number.</td><td><code>enrolments.started_on</code>, <code>programs.duration_weeks</code>, <code>program_blocks</code></td></tr>
-          <tr><td>Morning, Noon, Evening cards</td><td><strong>Done</strong> if the session is finished. <strong>Up next</strong> for the first unfinished slot. <strong>Later</strong> for the rest. Tapping starts the guided session.</td><td><code>sessions.status</code>, <code>session_reminders.reminder_time</code></td></tr>
-          <tr><td>How are you arriving today?</td><td>Mood for the next session. Sleep shown only if no check-in exists yet today.</td><td><code>check_ins.mood</code>, <code>check_ins.sleep_quality</code></td></tr>
+          <tr><td>"Week 3 of 6 · CO₂ tolerance block"</td><td>Week worked out from the enrolment start date. The block name only shows if the programme has blocks.</td><td><code>enrolments.started_on</code>, <code>programs.duration_weeks</code>, <code>program_blocks</code></td></tr>
+          <tr><td>Live call card</td><td>The next upcoming live call, such as "Live with Lauren · Thursday 7:00 pm". <strong>Join call</strong> opens its link in Zoom, Meet or similar. Hidden when nothing is coming up.</td><td><code>live_calls</code> where <code>starts_at</code> is in the future</td></tr>
+          <tr><td>Session cards (Morning, Evening)</td><td>One card per session time, in order. <strong>Done</strong> if the session is finished. <strong>Up next</strong> for the first unfinished one. <strong>Later</strong> for the rest. Tapping starts the guided session.</td><td><code>session_slots</code>, <code>sessions.status</code>, <code>session_reminders.reminder_time</code></td></tr>
+          <tr><td>How are you arriving today?</td><td>Mood before the next session. Sleep shown only if no check-in exists yet today.</td><td><code>check_ins.mood_before</code>, <code>check_ins.sleep_quality</code></td></tr>
           <tr><td>Quick pulse</td><td>Optional resting pulse saved with the check-in</td><td><code>check_ins.pulse_bpm</code></td></tr>
           <tr><td>Programme switcher</td><td>Only shown when the member has more than one active enrolment. Placement is in a menu, not on the tab bar.</td><td><code>enrolments</code> where <code>status = 'active'</code></td></tr>
         </tbody>
@@ -186,16 +211,17 @@ and anything in the guide that was unclear.</code></pre>
         <thead><tr><th>Element</th><th>Behaviour</th><th>Data</th></tr></thead>
         <tbody>
           <tr><td>Step bar (Pulse, Base, Hold, 3 min…)</td><td>One segment per protocol step, in order. Current step highlighted.</td><td><code>protocol_steps</code> for <code>week_number</code> and <code>slot</code> (a null slot applies to all slots)</td></tr>
-          <tr><td>Morning, Noon, Evening switch</td><td>Defaults to the "Up next" slot. Member can change it.</td><td><code>sessions.slot</code></td></tr>
+          <tr><td>Session time switch (Morning, Evening)</td><td>Defaults to the "Up next" session. Member can change it.</td><td><code>sessions.slot</code>, <code>session_slots</code></td></tr>
           <tr><td>Starting heart rate</td><td>Optional 60-second count, then type the number</td><td><code>sessions.start_pulse_bpm</code></td></tr>
           <tr><td>Hold steps</td><td>Stopwatch. Member taps to stop. Each hold saved as it finishes.</td><td><code>session_holds</code></td></tr>
           <tr><td>Recovery steps</td><td>Countdown from <code>duration_seconds</code>, with optional background audio</td><td><code>user_settings.background_audio</code></td></tr>
           <tr><td>Finishing pulse</td><td>Same as the starting pulse</td><td><code>sessions.end_pulse_bpm</code></td></tr>
           <tr><td>Elapsed, Pause, Exit</td><td>Pausing stops timers. Exiting keeps it <code>in_progress</code> so it can be resumed today.</td><td><code>sessions.elapsed_seconds</code>, <code>status</code></td></tr>
-          <tr><td>Finishing</td><td>Sets status to <code>done</code>. The database then adds a check-in post to the member's cohort if sharing is on.</td><td>Trigger on <code>sessions</code></td></tr>
+          <tr><td>How do you feel now?</td><td>Mood again, after the finishing pulse, using the same five choices</td><td><code>check_ins.mood_after</code></td></tr>
+          <tr><td>Finishing</td><td>Sets status to <code>done</code>. If the member has joined the group and turned sharing on, the database then adds a check-in post.</td><td>Trigger on <code>sessions</code></td></tr>
         </tbody>
       </table>
-      <p class="note">Base score is worked out by the database whenever a hold is saved. The app only reads <code>sessions.base_score</code>.</p>
+      <p class="note">Base score is worked out by the database whenever a hold is saved. The app only reads <code>sessions.base_score</code>. <span class="tag tag-open">Assumption</span> The new design shows a baseline test with its own timer ("I feel the urge"), so base score may come from that instead. See <a href="#open-questions">Assumptions</a>.</p>
     </div>
   </div>
 
@@ -234,7 +260,7 @@ and anything in the guide that was unclear.</code></pre>
           <tr><td>Morning pulse average</td><td>Week 1 against this week</td><td><code>check_ins.pulse_bpm</code> linked to morning sessions</td></tr>
           <tr><td>Base score average</td><td>Week 1 against this week</td><td><code>sessions.base_score</code></td></tr>
           <tr><td>7, 14, 30 days</td><td>Chart range</td><td>Filter on <code>session_date</code></td></tr>
-          <tr><td>All, Morning, Noon, Evening</td><td>Slot filter</td><td><code>sessions.slot</code></td></tr>
+          <tr><td>All, then one per session time</td><td>Session time filter. Morning and Evening for now.</td><td><code>sessions.slot</code></td></tr>
           <tr><td>Resting pulse chart, "What this means"</td><td>Daily line. Days with no entry shown as open circles. "What this means" opens plain-English help.</td><td><code>check_ins</code></td></tr>
         </tbody>
       </table>
@@ -246,14 +272,15 @@ and anything in the guide that was unclear.</code></pre>
   <div class="screen">
     <figure><img src="{{img:group}}" alt="Cohort group feed with posts, comments and cheers"></figure>
     <div>
-      <p>A feed for the member's cohort, like a Facebook group. Not a chat.</p>
+      <p>A feed for the member's cohort, like a Facebook group. Not a chat. Joining is the member's choice.</p>
       <table>
         <thead><tr><th>Element</th><th>Behaviour</th><th>Data</th></tr></thead>
         <tbody>
-          <tr><td>"October cohort · 6 members"</td><td>Member count only. Members can't see a list of who else is in the cohort.</td><td><code>cohort_member_count()</code></td></tr>
-          <tr><td>Share my check-ins</td><td>When on, finishing a session posts "Morning done" with mood</td><td><code>cohort_members.share_to_group</code></td></tr>
+          <tr><td>Join the group</td><td>Shown until the member joins: a short description with <strong>Join the group</strong> and <strong>Not now</strong>. Until they join they can't see the feed and group members can't see their name. Their coach can still see their data.</td><td><code>cohort_members.in_group</code></td></tr>
+          <tr><td>"October cohort · 6 members"</td><td>Number of people in the group. Members can't see a list of who they are.</td><td><code>cohort_member_count()</code></td></tr>
+          <tr><td>Share my check-ins</td><td>Off by default. When on, finishing a session posts "Morning done" with mood. Leaving the group turns it off.</td><td><code>cohort_members.share_to_group</code></td></tr>
           <tr><td>Post box</td><td>Text post to this cohort</td><td><code>group_posts</code></td></tr>
-          <tr><td>Feed</td><td>Newest first. Author name and photo, time, slot chip, body.</td><td><code>group_feed</code> view (one read)</td></tr>
+          <tr><td>Feed</td><td>Newest first. Author name and photo, time, session chip, body. Check-in posts show the mood after the session, or the mood before if there isn't one.</td><td><code>group_feed</code> view (one read)</td></tr>
           <tr><td>Comment under a post</td><td>Like Tom's reply to Mia</td><td><code>group_comments</code></td></tr>
           <tr><td>Cheer</td><td>One per person per post, tap again to remove</td><td><code>group_cheers</code></td></tr>
         </tbody>
@@ -269,8 +296,9 @@ and anything in the guide that was unclear.</code></pre>
       <table>
         <thead><tr><th>Section</th><th>Behaviour</th><th>Data</th></tr></thead>
         <tbody>
-          <tr><td>Practice reminders</td><td>Time and on or off per slot. Defaults 07:00, 12:30, 20:30. Scheduled as local notifications on the phone.</td><td><code>session_reminders</code></td></tr>
+          <tr><td>Practice reminders</td><td>Time and on or off per session time. Defaults 07:00 and 20:30. Scheduled as local notifications on the phone.</td><td><code>session_reminders</code></td></tr>
           <tr><td>Notifications</td><td>Gentle nudges, group activity, weekly summary</td><td><code>user_settings</code></td></tr>
+          <tr><td>Group</td><td>Join or leave the group, and the sharing toggle, for each cohort</td><td><code>cohort_members</code></td></tr>
           <tr><td>Session audio</td><td>Background audio on or off, volume 0 to 100, sound</td><td><code>user_settings</code></td></tr>
           <tr><td>Your data</td><td><strong>Export</strong> downloads CSV files. <strong>Delete account</strong> removes everything.</td><td>Edge function for export. Deleting the auth user cascades.</td></tr>
         </tbody>
@@ -293,11 +321,12 @@ and anything in the guide that was unclear.</code></pre>
     <thead><tr><th>Data</th><th>The member</th><th>Cohort mates</th><th>Coach</th><th>Admin</th></tr></thead>
     <tbody>
       <tr><td>Sessions and holds</td><td>Full</td><td>No</td><td>Read, for dates in cohort</td><td>Read</td></tr>
-      <tr><td>Check-ins (mood, pulse, sleep)</td><td>Full</td><td>Mood only, through the feed</td><td>Read, for dates in cohort</td><td>Read</td></tr>
+      <tr><td>Check-ins (mood, pulse, sleep)</td><td>Full</td><td>Moods only, through the feed, if the member shares</td><td>Read, for dates in cohort</td><td>Read</td></tr>
       <tr><td>Workouts and notes</td><td>Full</td><td>No</td><td>Read, for dates in cohort</td><td>Read</td></tr>
-      <tr><td>Name and photo</td><td>Edit</td><td>Read</td><td>Read</td><td>Read</td></tr>
+      <tr><td>Name and photo</td><td>Edit</td><td>Read, once both have joined the group</td><td>Read</td><td>Read</td></tr>
       <tr><td>Cohort member list</td><td>Own row only</td><td>Count only</td><td>Full roster</td><td>Full</td></tr>
-      <tr><td>Posts, comments, cheers</td><td>Write own</td><td>Read</td><td>Read, delete posts</td><td>Read</td></tr>
+      <tr><td>Posts, comments, cheers</td><td>Write own, once joined</td><td>Read, once joined</td><td>Read, delete posts</td><td>Read</td></tr>
+      <tr><td>Live calls</td><td>Read</td><td>Read</td><td>Read</td><td>Create and edit</td></tr>
       <tr><td>Own role</td><td>Can't change</td><td>No</td><td>No</td><td>Changes it</td></tr>
     </tbody>
   </table>
@@ -306,7 +335,10 @@ and anything in the guide that was unclear.</code></pre>
   <p>Coaches use the same screens as members. A coach picks a cohort, then a member, and sees that member's Today, Progress and Workouts in read-only mode. No separate coach design exists or is needed for the MVP.</p>
 
   <h2 id="admin-view">The admin's view</h2>
-  <p><span class="tag tag-open">Open question</span> For the MVP, admins manage programmes, steps and cohorts directly in the Supabase dashboard. An in-app admin area is a later decision.</p>
+  <p><span class="tag tag-open">Assumption</span> For the MVP, admins manage programmes, steps, session times, cohorts and live calls directly in the Supabase dashboard. An in-app admin area is a later decision.</p>
+
+  <h2 id="joining-the-group">Joining the group</h2>
+  <p>Being in a cohort and being in its group are two different things. An admin puts a member in a cohort, which gives their coach access. The member then decides whether to join the group feed, and separately whether to share their check-ins there. Both start off. Automatic sharing is a version 2 idea.</p>
 
   <h2 id="dates">Why membership has dates</h2>
   <p>A member can leave one cohort and join another, or be in two at once. Each membership stores <code>joined_on</code> and <code>left_on</code>. A coach sees a member's data only for days that fall inside those dates, so a new coach doesn't inherit a member's history from another cohort.</p>
@@ -316,11 +348,12 @@ and anything in the guide that was unclear.</code></pre>
 <section class="page" id="design-colours" data-group="Design system" data-title="Colours">
   <h1>Colours</h1>
   <p class="lede">Sampled from the mockups. Warm paper backgrounds, a forest-green primary, and soft sage and clay accents for status.</p>
+  <p class="note"><span class="tag tag-open">Coming</span> A new look is on the way: navy, periwinkle blue and khaki, a rounded sans-serif and an "and+ breathe" logo. The Design system pages will be updated when the design file arrives. Until then, treat the colours and fonts here as provisional.</p>
   <h2 id="palette">Palette</h2>
   <div class="swatches" id="swatches"></div>
   <h2 id="colour-usage">Usage</h2>
   <ul>
-    <li><strong>Forest</strong> is for primary actions (Start noon session, Post), selected chips, toggles that are on, and the active tab.</li>
+    <li><strong>Forest</strong> is for primary actions (Start evening session, Post), selected chips, toggles that are on, and the active tab.</li>
     <li><strong>Deep forest</strong> is for the guided session background and the "working towards" panel on Progress.</li>
     <li><strong>Sage</strong> marks something done or shared. <strong>Clay</strong> marks something up next or needing attention.</li>
     <li>Don't use pure white or pure black anywhere. Text is ink, backgrounds are paper or card.</li>
@@ -357,7 +390,7 @@ and anything in the guide that was unclear.</code></pre>
   <p class="lede">The building blocks that repeat across every screen.</p>
   <h2 id="component-buttons">Buttons</h2>
   <div class="demo">
-    <button class="btn btn-primary">Start noon session</button>
+    <button class="btn btn-primary">Start evening session</button>
     <button class="btn btn-outline">Open group</button>
     <span class="on-dark"><button class="btn btn-cream">Next: baseline test</button></span>
   </div>
@@ -409,7 +442,7 @@ and anything in the guide that was unclear.</code></pre>
   <ul>
     <li><strong>Talk to one person.</strong> "How are you arriving today?", not "Log your mood".</li>
     <li><strong>Measure against themselves.</strong> Never compare members with each other.</li>
-    <li><strong>Say what a button does.</strong> "Start noon session", "Next: baseline test".</li>
+    <li><strong>Say what a button does.</strong> "Start evening session", "Next: baseline test".</li>
     <li><strong>Gentle by default.</strong> One reminder per session, no repeats.</li>
   </ul>
   <h2 id="voice-examples">Examples from the designs</h2>
@@ -435,13 +468,18 @@ and anything in the guide that was unclear.</code></pre>
   <table>
     <thead><tr><th>Layer</th><th>Choice</th><th>Why</th></tr></thead>
     <tbody>
-      <tr><td>App</td><td>React Native with Expo (managed), TypeScript</td><td>Ready-made pieces for Google sign-in, notifications, secure storage and audio without native code</td></tr>
+      <tr><td>App</td><td>React Native with Expo (managed), TypeScript</td><td>Ready-made pieces for sign-in links, notifications, secure storage and audio without native code</td></tr>
       <tr><td>Navigation</td><td>Expo Router</td><td>File-based routes, matches the five tabs plus a full-screen session</td></tr>
       <tr><td>Database and auth</td><td>Supabase (Postgres)</td><td>Access rules live in the database, types are generated from it</td></tr>
       <tr><td>Server logic</td><td>Postgres functions and triggers, Supabase edge functions for CSV export</td><td>Base score and check-in posts happen in one place</td></tr>
+      <tr><td>Sign-in emails</td><td>An email sending service (such as Resend or Postmark) connected to Supabase</td><td>Supabase's built-in email is for testing only and sends very few emails an hour</td></tr>
       <tr><td>Reminders</td><td>Expo Notifications, scheduled locally</td><td>No push server needed for the MVP</td></tr>
       <tr><td>Session audio</td><td>Expo Audio</td><td>Background sound during recoveries</td></tr>
       <tr><td>Builds and releases</td><td>Expo Application Services</td><td>Cloud builds and App Store and Google Play submission</td></tr>
+      <tr><td>Apple Watch data</td><td>Apple Health (HealthKit), through a library with an Expo config plugin such as <code>@kingstinct/react-native-healthkit</code></td><td>Reads heart rate, sleep and workouts on the phone. Needs a custom development build, not Expo Go.</td></tr>
+      <tr><td>Server state</td><td>@tanstack/react-query</td><td>Activatus standard. Caching, loading and refetching for Supabase reads.</td></tr>
+      <tr><td>App state</td><td>Zustand</td><td>Activatus standard. Small shared state, such as the running guided session.</td></tr>
+      <tr><td>Validation</td><td>Zod</td><td>Activatus standard. Checks form input and data coming back from Apple Health.</td></tr>
       <tr><td>Package manager</td><td>pnpm</td><td>Matches the database scripts</td></tr>
     </tbody>
   </table>
@@ -468,20 +506,25 @@ and anything in the guide that was unclear.</code></pre>
 </section>
 
 <section class="page" id="auth" data-group="Architecture" data-title="Sign-in">
-  <h1>Sign-in with Google</h1>
-  <p class="lede">How a member gets into the app. They sign in with the Google account they already have, so there is no And Breathe password to remember, store or reset. The steps below are what happens behind the scenes in the second or two that takes.</p>
+  <h1>Sign-in with email</h1>
+  <p class="lede">How a member gets into the app. They type their email, and we send them a link to tap and a six-digit code to type in, whichever is easier. There's no password to remember, store or reset, and no Google or Apple account needed, which matters when the app is sold to companies. The steps below are what happens behind the scenes.</p>
+  <h2 id="auth-why">Why not Google?</h2>
+  <p>The app is likely to be sold to companies later, and not every company uses Google. Email works for everyone and keeps personal Google accounts out of a work tool.</p>
   <h2 id="auth-flow">Flow</h2>
   <ol>
-    <li>The app uses the native Google sign-in sheet and receives a Google ID token.</li>
-    <li>It passes the token to <code>supabase.auth.signInWithIdToken({ provider: 'google', token })</code>.</li>
-    <li>Supabase creates the user on first sign-in. A database trigger then creates the profile (name and photo from Google), default settings and the three default reminders.</li>
+    <li>The member enters their email. The app calls <code>supabase.auth.signInWithOtp({ email })</code>.</li>
+    <li>Supabase emails a sign-in link and a six-digit code.</li>
+    <li>Either the member taps the link, which opens the app through a deep link and completes sign-in, or they type the code and the app calls <code>supabase.auth.verifyOtp({ email, token, type: 'email' })</code>.</li>
+    <li>Supabase creates the user on first sign-in. A database trigger then creates the profile (with an empty name), default settings and a reminder for each session time.</li>
+    <li>The app sees the empty name and asks "What should we call you?" once.</li>
     <li>The session is stored on the phone so the member stays signed in, following Supabase's React Native guide.</li>
   </ol>
   <h2 id="auth-setup">Setup checklist</h2>
   <ul>
-    <li>Create Google OAuth client IDs for iOS, Android and web in Google Cloud.</li>
-    <li>Turn on the Google provider in Supabase and add all three client IDs.</li>
-    <li>Add the iOS URL scheme and Android signing fingerprint in the Expo config.</li>
+    <li>Turn on the Email provider in Supabase. Turn off password sign-up.</li>
+    <li>Edit the Magic Link email template so it includes both the link and the code (<code>&#123;&#123; .Token &#125;&#125;</code>).</li>
+    <li>Connect an email sending service through Supabase's custom SMTP settings before anyone outside the team signs in.</li>
+    <li>Add the app's deep link (for example <code>andbreathe://</code>) to Supabase's allowed redirect URLs, and set the same scheme in the Expo config.</li>
     <li>Make the first admin by setting <code>profiles.app_role</code> to <code>admin</code> in the Supabase dashboard. Members can never change their own role.</li>
   </ul>
 </section>
@@ -497,27 +540,85 @@ and anything in the guide that was unclear.</code></pre>
   </ul>
 </section>
 
+<section class="page" id="wearables" data-group="Architecture" data-title="Wearables">
+  <h1>Wearables</h1>
+  <p class="lede">How the app gets data from a member's watch. It starts with Apple Watch, the most popular, through Apple Health, the health app built into every iPhone. The data is laid out the way Apple Health lays it out, with plain-English names, so Garmin and others slot in later without changing anything.</p>
+
+  <h2 id="wearables-why-apple">Why Apple first</h2>
+  <ul>
+    <li><strong>Most members will have one.</strong> Apple Watch is the most widely worn smartwatch.</li>
+    <li><strong>Apple Health is a hub.</strong> Garmin and WHOOP can sync some of their data into it, so some of their users get something from day one.</li>
+    <li><strong>It works on the phone.</strong> No server connection or partner approval needed, unlike Garmin.</li>
+  </ul>
+  <p class="note">Apple Health is iPhone only. Android members type their numbers in until Google's Health Connect is added. Garmin comes next, as a direct connection.</p>
+
+  <h2 id="wearables-flow">How it works</h2>
+  <ol>
+    <li>In Settings, the member taps <strong>Connect Apple Health</strong>. iPhone shows its own permission screen listing what the app wants to read.</li>
+    <li>Each time the app opens, it asks Apple Health for anything new since <code>health_connections.last_synced_at</code>.</li>
+    <li>It saves each new record with Apple's record id in <code>source_record_id</code>, so syncing twice never doubles anything.</li>
+    <li>Progress, Workouts and the guided session's pulse steps read from these tables. The member can still type numbers in by hand.</li>
+  </ol>
+
+  <h2 id="wearables-data">What we read</h2>
+  <table>
+    <thead><tr><th>Measurement</th><th>Apple Health name</th><th>Stored as</th><th>Used for</th></tr></thead>
+    <tbody>
+      <tr><td>Heart rate</td><td><code>HKQuantityTypeIdentifierHeartRate</code></td><td><code>health_readings</code>, <code>heart_rate</code>, bpm</td><td>Filling in starting and finishing pulse</td></tr>
+      <tr><td>Resting heart rate</td><td><code>HKQuantityTypeIdentifierRestingHeartRate</code></td><td><code>health_readings</code>, <code>resting_heart_rate</code>, bpm</td><td>The resting pulse chart on Progress</td></tr>
+      <tr><td>Heart rate variability</td><td><code>HKQuantityTypeIdentifierHeartRateVariabilitySDNN</code></td><td><code>health_readings</code>, <code>heart_rate_variability_sdnn</code>, ms</td><td>Recovery trend on Progress</td></tr>
+      <tr><td>Breathing rate</td><td><code>HKQuantityTypeIdentifierRespiratoryRate</code></td><td><code>health_readings</code>, <code>respiratory_rate</code>, breaths_per_minute</td><td>Overnight breathing trend</td></tr>
+      <tr><td>Blood oxygen</td><td><code>HKQuantityTypeIdentifierOxygenSaturation</code></td><td><code>health_readings</code>, <code>oxygen_saturation</code>, percent</td><td>Stored for later. Not shown in version 1.</td></tr>
+      <tr><td>Sleep</td><td><code>HKCategoryTypeIdentifierSleepAnalysis</code></td><td><code>sleep_periods</code>, one row per stage</td><td>Suggesting the sleep answer at check-in</td></tr>
+      <tr><td>Workouts</td><td><code>HKWorkoutType</code></td><td><code>workouts</code> with <code>source = 'apple_health'</code></td><td>The workout log, without typing</td></tr>
+    </tbody>
+  </table>
+  <p>Apple workout types map to ours: running to <code>run</code>, cycling to <code>cycle</code>, strength training to <code>strength</code>, anything else to <code>other</code>. Members can change a workout to <code>hyrox</code> afterwards.</p>
+
+  <h2 id="wearables-rules">Rules for the data</h2>
+  <ul>
+    <li><strong>Apple's layout, our names.</strong> Readings, sleep and workouts are kept the way Apple Health keeps them, but named in plain English, following the Activatus code standards.</li>
+    <li><strong>Every row says where it came from.</strong> <code>source</code> is <code>apple_health</code> or <code>manual</code>. Garmin and WHOOP get added to that list when they're connected.</li>
+    <li><strong>Heart rate variability comes in two kinds.</strong> Apple measures SDNN. Garmin and WHOOP measure RMSSD, a different number. They are never mixed: each gets its own reading type, so a member's trend doesn't jump when they change watch.</li>
+    <li><strong>No double counting.</strong> When Garmin arrives, a Garmin user may have the same workout from Garmin directly and from Apple Health. The app keeps the direct one and ignores the copy.</li>
+  </ul>
+
+  <h2 id="wearables-setup">Setup checklist</h2>
+  <ul>
+    <li>Install the HealthKit library and its Expo config plugin, and switch from Expo Go to a custom development build.</li>
+    <li>Turn on the HealthKit capability for the app in the Apple Developer account.</li>
+    <li>Write the two iPhone permission messages (why the app reads health data, and that it doesn't write any) in plain, calm language.</li>
+    <li>Publish a privacy policy that covers health data before submitting to the App Store. Apple checks this closely for health apps.</li>
+  </ul>
+</section>
+
 <!-- ============ DATABASE ============ -->
 <section class="page" id="db-overview" data-group="Database" data-title="Overview">
   <h1>Database overview</h1>
-  <p class="lede">The database is where everything the app remembers is kept: who the members are, which sessions they've done, what they've posted. Think of it as a set of linked spreadsheets. There are seventeen of them in five areas: sixteen tables and one read-only view.</p>
+  <p class="lede">The database is where everything the app remembers is kept: who the members are, which sessions they've done, what they've posted. Think of it as a set of linked spreadsheets. There are twenty-two of them in six areas: twenty-one tables and one read-only view.</p>
   <h2 id="db-areas">Areas</h2>
   <div id="db-area-summary"></div>
   <h2 id="db-relationships">How it fits together</h2>
-  <pre><code>programs ─┬─ program_blocks
+  <pre><code>session_slots ── used by protocol_steps, sessions, session_reminders
+programs ─┬─ program_blocks
           ├─ protocol_steps
-          ├─ cohorts ── cohort_members ── profiles
+          ├─ cohorts ─┬─ cohort_members ── profiles
+          │           └─ live_calls
           └─ enrolments ── sessions ─┬─ session_holds
                                      └─ check_ins
 profiles ─┬─ user_settings
           ├─ session_reminders
-          └─ workouts
+          ├─ workouts
+          ├─ health_connections
+          ├─ health_readings
+          └─ sleep_periods
 cohorts ── group_posts ─┬─ group_comments
                         └─ group_cheers</code></pre>
   <h2 id="db-principles">Principles</h2>
   <ul>
     <li><strong>Worked out, not stored:</strong> current week, "Up next" and Progress averages are calculated from dates and sessions.</li>
     <li><strong>One exception:</strong> <code>sessions.base_score</code> is stored, but only ever written by the database from the holds, so reads are fast and the formula lives in one place.</li>
+    <li><strong>Lists that may grow are tables, not fixed lists.</strong> Session times live in <code>session_slots</code> so an admin can add noon or night later without a developer.</li>
     <li><strong>Deleting a person</strong> removes everything they own in one step.</li>
   </ul>
 </section>
@@ -537,7 +638,6 @@ cohorts ── group_posts ─┬─ group_comments
     <tbody>
       <tr><td><code>app_role</code></td><td>member, admin</td><td>profiles</td></tr>
       <tr><td><code>cohort_role</code></td><td>member, coach</td><td>cohort_members</td></tr>
-      <tr><td><code>session_slot</code></td><td>morning, noon, evening</td><td>sessions, reminders, protocol steps</td></tr>
       <tr><td><code>session_status</code></td><td>pending, in_progress, done, skipped</td><td>sessions</td></tr>
       <tr><td><code>mood</code></td><td>low, flat, okay, good, great</td><td>check_ins</td></tr>
       <tr><td><code>sleep_quality</code></td><td>poor, fair, good, great</td><td>check_ins</td></tr>
@@ -547,6 +647,7 @@ cohorts ── group_posts ─┬─ group_comments
       <tr><td><code>enrolment_status</code></td><td>active, completed, left</td><td>enrolments</td></tr>
     </tbody>
   </table>
+  <p class="note">Session times (morning, evening) are not on this list. They live in the <a href="#table-session_slots">session_slots</a> table so they can be added to without a developer.</p>
 </section>
 
 <section class="page" id="db-logic" data-group="Database" data-title="Functions and triggers">
@@ -556,10 +657,10 @@ cohorts ── group_posts ─┬─ group_comments
   <table>
     <thead><tr><th>When</th><th>What happens</th></tr></thead>
     <tbody>
-      <tr><td>A new user signs in with Google</td><td>Creates their profile, default settings and three reminders</td></tr>
+      <tr><td>A new user signs in for the first time</td><td>Creates their profile (name left empty for the app to ask), default settings and a reminder for each session time</td></tr>
       <tr><td>A hold is added, changed or removed</td><td>Recalculates <code>sessions.base_score</code></td></tr>
-      <tr><td>A session changes to done</td><td>Posts a check-in to each cohort the member shares with, for that session's programme</td></tr>
-      <tr><td>A member edits their cohort membership</td><td>Allows only the sharing toggle and leaving. Everything else needs an admin.</td></tr>
+      <tr><td>A session changes to done</td><td>Posts a check-in to each cohort group the member has joined with sharing on, for that session's programme</td></tr>
+      <tr><td>A member edits their cohort membership</td><td>Allows only joining or leaving the group, the sharing toggle, and leaving the cohort. Everything else needs an admin.</td></tr>
       <tr><td>Profiles, settings or posts are updated</td><td>Stamps <code>updated_at</code></td></tr>
     </tbody>
   </table>
@@ -567,7 +668,7 @@ cohorts ── group_posts ─┬─ group_comments
   <table>
     <thead><tr><th>Function</th><th>Returns</th></tr></thead>
     <tbody>
-      <tr><td><code>cohort_member_count(cohort_id)</code></td><td>Number of members, for "6 members"</td></tr>
+      <tr><td><code>cohort_member_count(cohort_id)</code></td><td>Number of members in the group, for "6 members"</td></tr>
       <tr><td><code>calculate_base_score(session_id)</code></td><td>The base score. For now, the best hold in seconds.</td></tr>
       <tr><td><code>get_progress_summary(…)</code></td><td><span class="tag tag-build">To build</span> Week 1 against this week averages for Progress</td></tr>
     </tbody>
@@ -603,47 +704,413 @@ const { data } = await supabase
   <h2 id="types-tests">Database tests</h2>
   <ul>
     <li>Base score equals the best hold.</li>
-    <li>New users get three default reminders.</li>
+    <li>New users get one reminder per active session time (two to start).</li>
     <li>A member can't read another member's workouts.</li>
     <li>A member can't list other members of a cohort.</li>
+    <li>A member who hasn't joined the group can't read the feed, and group members can't see their name.</li>
+    <li>Finishing a session posts to the group only when the member has joined and sharing is on.</li>
+    <li>A member can read live calls for their cohort and open calls, but not other cohorts' calls.</li>
   </ul>
   <p>Add a test for every new access rule.</p>
 </section>
 
 <!-- ============ BUILD PLAN ============ -->
-<section class="page" id="build-plan" data-group="Build plan" data-title="Milestones">
+<section class="page" id="build-plan" data-group="Build plan" data-title="Features">
   <h1>Build plan</h1>
-  <p class="lede">Build in this order. A milestone is one chunk of work with a clear finish line, and each one ends in something a person can try on a phone. The "Done when" column is how you tell a milestone is finished.</p>
+  <p class="lede">Build in this order. Each feature is one part of the app, built as a set of tickets, and each one ends in something a person can try on a phone. The acceptance criteria column is how you tell a feature is finished.</p>
   <table class="milestones">
-    <thead><tr><th>#</th><th>Milestone</th><th>Done when</th></tr></thead>
+    <thead><tr><th>#</th><th>Feature</th><th>Acceptance criteria</th></tr></thead>
     <tbody>
       <tr><td>1</td><td><strong>Foundations.</strong> Expo app, theme tokens, fonts, tab bar, Supabase client, migrations applied, types generated.</td><td>App opens on a phone with five empty tabs in the right colours and fonts.</td></tr>
-      <tr><td>2</td><td><strong>Sign-in.</strong> Google sign-in, signed-in state kept between launches, sign out.</td><td>A new Google user lands on Today with a profile and default reminders.</td></tr>
-      <tr><td>3</td><td><strong>Enrol and Today.</strong> Pick a programme, current week and block, three session cards, mood, sleep and pulse check-in.</td><td>Today matches the mockup with real data.</td></tr>
-      <tr><td>4</td><td><strong>Guided session.</strong> Steps from the database, timers, holds, pulses, pause, resume, finish.</td><td>A finished session shows Done on Today with a base score.</td></tr>
+      <tr><td>2</td><td><strong>Sign-in.</strong> Email sign-in by link or code, "What should we call you?", signed-in state kept between launches, sign out.</td><td>A new email address can sign in with either the link or the code, set a name, and land on Today with default reminders.</td></tr>
+      <tr><td>3</td><td><strong>Enrol and Today.</strong> Pick a programme, current week, morning and evening session cards, mood before, sleep and pulse check-in, live call card.</td><td>Today matches the mockup with real data.</td></tr>
+      <tr><td>4</td><td><strong>Guided session.</strong> Steps from the database, timers, holds, pulses, mood after, pause, resume, finish.</td><td>A finished session shows Done on Today with a base score.</td></tr>
       <tr><td>5</td><td><strong>Workout log.</strong> Form with type-specific fields, list of past workouts.</td><td>A Hyrox workout saves and reloads.</td></tr>
       <tr><td>6</td><td><strong>Progress.</strong> Progress summary function, headline averages, charts, range and slot filters.</td><td>Week 1 against this week reads correctly from test data.</td></tr>
-      <tr><td>7</td><td><strong>Group.</strong> Feed, post, comment, cheer, share toggle, automatic check-in posts, cohort switcher.</td><td>Two test members in one cohort see each other's posts but not each other's data.</td></tr>
+      <tr><td>7</td><td><strong>Group.</strong> Join the group or not now, feed, post, comment, cheer, share toggle (off by default), automatic check-in posts, cohort switcher.</td><td>Two test members who have joined see each other's posts but not each other's data. A member who hasn't joined sees only the invitation.</td></tr>
       <tr><td>8</td><td><strong>Settings.</strong> Reminders scheduled on the phone, notification and audio choices, CSV export, delete account.</td><td>Changing a reminder time moves the phone notification.</td></tr>
-      <tr><td>9</td><td><strong>Coach view.</strong> Cohort and member picker, member screens in read-only mode.</td><td>A coach sees a member's data only for dates they were in the cohort.</td></tr>
-      <tr><td>10</td><td><strong>Release.</strong> App icons, splash, Expo Application Services builds, TestFlight and Google Play internal testing.</td><td>The client installs a test build.</td></tr>
+      <tr><td>9</td><td><strong>Apple Watch.</strong> Custom development build, Apple Health permission screen, pull heart rate, resting heart rate, variability, sleep and workouts, show them in Progress and Workouts, use the latest heart rate to fill in session pulses.</td><td>A tester's Apple Watch data appears in the app within a minute of opening it, and syncing again adds nothing twice.</td></tr>
+      <tr><td>10</td><td><strong>Coach view.</strong> Cohort and member picker, member screens in read-only mode.</td><td>A coach sees a member's data only for dates they were in the cohort.</td></tr>
+      <tr><td>11</td><td><strong>Release.</strong> App icons, splash, Expo Application Services builds, TestFlight and Google Play internal testing.</td><td>The client installs a test build.</td></tr>
     </tbody>
   </table>
 </section>
 
-<section class="page" id="open-questions" data-group="Build plan" data-title="Open questions">
-  <h1>Open questions</h1>
-  <p class="lede">Things nobody has decided yet, and who needs to decide them. Build the simplest version of each and flag it. None of these block milestone 1 or 2.</p>
+<section class="page" id="open-questions" data-group="Build plan" data-title="Assumptions">
+  <h1>Assumptions</h1>
+  <p class="lede">Things nobody has confirmed yet, and who needs to decide them. Until they do, each one is accepted as an assumption: build the simplest version and flag it, so nothing gets invented. None of these block features 1 or 2.</p>
+  <p class="note">Answered on 14 October 2026: email sign-in, morning and evening sessions, mood before and after, joining the group is optional, and the six weeks follow one programme. These are now in <a href="#decisions">Decisions already made</a>.</p>
   <table>
-    <thead><tr><th>#</th><th>Question</th><th>Who answers</th><th>Simplest version for now</th></tr></thead>
+    <thead><tr><th>#</th><th>Question</th><th>Who decides</th><th>Assumption until decided</th></tr></thead>
     <tbody>
-      <tr><td>1</td><td>What is the real base score formula?</td><td>Course author</td><td>Best hold in seconds</td></tr>
-      <tr><td>2</td><td>Is the "Base" step a separate test, or part of the holds? What does it record?</td><td>Course author</td><td>Show the step with its instructions. Record nothing extra.</td></tr>
+      <tr><td>1</td><td>What is the real base score formula? The new design shows a baseline test with its own timer ("Breathe out normally, then hold · I feel the urge"), so base score may come from that test and not the holds. Details are in the client's Claude chat.</td><td>Client</td><td>Best hold in seconds</td></tr>
+      <tr><td>2</td><td>What does the "Base" step record? See question 1.</td><td>Client</td><td>Show the step with its instructions. Record nothing extra.</td></tr>
       <tr><td>3</td><td>Final hold counts, recovery lengths and safety wording per week</td><td>Course author</td><td>Seeded placeholders: four holds, three-minute recoveries</td></tr>
-      <tr><td>4</td><td>Do admins need screens in the app?</td><td>Client</td><td>Manage content in the Supabase dashboard</td></tr>
-      <tr><td>5</td><td>When a member leaves a cohort, do their old posts stay?</td><td>Client</td><td>Posts stay</td></tr>
-      <tr><td>6</td><td>Which background sounds are available?</td><td>Client</td><td>Soft rain only</td></tr>
-      <tr><td>7</td><td>Is the desktop layout in scope?</td><td>Client</td><td>No, phone only</td></tr>
+      <tr><td>4</td><td>The new look: navy, periwinkle and khaki, rounded sans-serif, "and+ breathe" logo. The design file is in the client's Claude chat.</td><td>Client</td><td>Build with the colours and fonts in this guide. They're held as tokens, so the swap is quick.</td></tr>
+      <tr><td>5</td><td>Live calls: which service (Zoom, Google Meet), who can join (everyone or one cohort), and who adds them?</td><td>Client</td><td>A link per call, for one cohort or everyone, added by an admin in the dashboard</td></tr>
+      <tr><td>6</td><td>Which numbers from the watch matter most? Decided: Apple Watch first, through Apple Health.</td><td>Client</td><td>Heart rate, resting heart rate, heart rate variability, sleep and workouts</td></tr>
+      <tr><td>7</td><td>Do admins need screens in the app?</td><td>Client</td><td>Manage content in the Supabase dashboard</td></tr>
+      <tr><td>8</td><td>When a member leaves a cohort, do their old posts stay?</td><td>Client</td><td>Posts stay</td></tr>
+      <tr><td>9</td><td>Which background sounds are available?</td><td>Client</td><td>Soft rain only</td></tr>
+      <tr><td>10</td><td>Is the desktop layout in scope?</td><td>Client</td><td>No, phone only</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============ QUOTE ============ -->
+<section class="page" id="quote-summary" data-group="Quote" data-title="Summary" data-export="no">
+  <h1>Quote</h1>
+  <p class="lede">What it takes to build the And Breathe MVP, and how the work runs. The project goes through Launchpad, Activatus's build system: AI agents do the specialist work, and people make every decision and approve every release. The work is sized in story points, not hours.</p>
+
+  <p class="note"><strong>This is a high-level estimate, sized to the worst case.</strong> The app is built with AI tools, which often makes the work quicker than a traditional estimate expects, but exactly how much quicker is hard to know in advance. So you're charged in line with the work actually done, and this quote shows the most it should take for the scope described here. The story points in this quote don't change once it's given. If an <a href="#quote-unknowns">assumption</a> turns out differently, that page shows what it could add.</p>
+
+  <h2 id="quote-total">At a glance</h2>
+  <table>
+    <tbody>
+      <tr><td><strong>Size</strong></td><td>282 story points, worst case, across 60 tickets</td></tr>
+      <tr><td><strong>Timeline</strong></td><td>About 7 to 10 weeks, with something new to try on your phone every week or so</td></tr>
+      <tr><td><strong>Platforms</strong></td><td>iPhone and Android. Apple Watch data on iPhone.</td></tr>
+      <tr><td><strong>How it's built</strong></td><td>Through Launchpad. AI agents plan, build, test and review. A developer checks and approves every change.</td></tr>
+    </tbody>
+  </table>
+
+  <h2 id="quote-story-points">What a story point is</h2>
+  <p>A story point measures how big a piece of work is: how much there is to do and how many unknowns it has. It's the same measure whether a person or an AI does the work. Every ticket gets one of five sizes, each double the last, and nothing bigger than 16 goes into the plan without being split first. As a rough guide, the sizes are roughly in line with these times:</p>
+  <table>
+    <thead><tr><th>Points</th><th>Size</th><th>Roughly</th></tr></thead>
+    <tbody>
+      <tr><td><strong>1</strong></td><td>Tiny</td><td>An hour</td></tr>
+      <tr><td><strong>2</strong></td><td>Small</td><td>A couple of hours</td></tr>
+      <tr><td><strong>4</strong></td><td>Medium</td><td>Half a day</td></tr>
+      <tr><td><strong>8</strong></td><td>Large</td><td>A day</td></tr>
+      <tr><td><strong>16</strong></td><td>Very large</td><td>Two days</td></tr>
+    </tbody>
+  </table>
+
+  <h2 id="quote-stages">The stages</h2>
+  <p>Every Launchpad project moves through the same stages, in this order. Each has its own page in this section.</p>
+  <table>
+    <thead><tr><th>Stage</th><th>What happens</th><th>Who's involved</th><th>Story points</th></tr></thead>
+    <tbody>
+      <tr><td><strong><a href="#quote-pitch">Pitch</a></strong></td><td>Finish defining the product: answer the last questions, spell out every user flow, and record each decision</td><td>You and us</td><td>12</td></tr>
+      <tr><td><strong><a href="#quote-planning">Planning</a></strong></td><td>Turn the product definition into small tickets, review them, and send them to Linear</td><td>Us, with your sign-off</td><td>10</td></tr>
+      <tr><td><strong><a href="#quote-planning">Workflow</a></strong></td><td>Link the tickets in order, so the Launchpad Engine always knows what's ready to build next</td><td>Automatic</td><td>Included in Planning</td></tr>
+      <tr><td><strong><a href="#quote-assemble">Assemble</a></strong></td><td>Build each ticket, test it, review it and merge it</td><td>Dev Agents and a developer</td><td>208</td></tr>
+      <tr><td><strong><a href="#quote-deploy">Deploy</a></strong></td><td>You test each feature on your phone, we fix what fails, then release to the App Store and Google Play</td><td>You and us</td><td>40</td></tr>
+      <tr><td><strong><a href="#quote-deploy">Live</a></strong></td><td>The app is in the stores and checked working</td><td></td><td></td></tr>
+      <tr><td><strong>Project management</strong></td><td>Check-ins, progress summaries and handling feedback, across every stage</td><td>Us</td><td>12</td></tr>
+      <tr><td></td><td><strong>Total</strong></td><td></td><td><strong>282</strong></td></tr>
+    </tbody>
+  </table>
+
+  <h2 id="quote-by-area">Where the work goes</h2>
+  <p>The same points, grouped by what they're spent on.</p>
+  <table>
+    <thead><tr><th>Area</th><th>What it covers</th><th>Story points</th><th>Share</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Defining and planning</strong></td><td>Pitch, Planning and Workflow</td><td>22</td><td>8%</td></tr>
+      <tr><td><strong>App foundations and sign-in</strong></td><td>Features 1 and 2</td><td>24</td><td>9%</td></tr>
+      <tr><td><strong>The daily practice</strong></td><td>Today, guided session, workout log, Progress (features 3 to 6)</td><td>86</td><td>31%</td></tr>
+      <tr><td><strong>Community and coaching</strong></td><td>Group and coach view (features 7 and 10)</td><td>38</td><td>13%</td></tr>
+      <tr><td><strong>Settings</strong></td><td>Reminders, notifications, audio, export, delete account (feature 8)</td><td>18</td><td>6%</td></tr>
+      <tr><td><strong>Apple Watch</strong></td><td>Apple Health connection (feature 9)</td><td>30</td><td>11%</td></tr>
+      <tr><td><strong>The new look</strong></td><td>Applying the final design</td><td>12</td><td>4%</td></tr>
+      <tr><td><strong>Testing and release</strong></td><td>UAT, bugfixes, App Store and Google Play</td><td>40</td><td>14%</td></tr>
+      <tr><td><strong>Project management</strong></td><td>Check-ins, summaries, feedback</td><td>12</td><td>4%</td></tr>
+      <tr><td></td><td><strong>Total</strong></td><td><strong>282</strong></td><td>100%</td></tr>
+    </tbody>
+  </table>
+
+  <h2 id="quote-what-you-get">What the MVP includes</h2>
+  <ul>
+    <li>Email sign-in with a link or code</li>
+    <li>Today: morning and evening sessions, mood and sleep check-in, and the next live call</li>
+    <li>The full guided breathwork session, with mood before and after</li>
+    <li>Workout log, filled in automatically from Apple Watch where possible</li>
+    <li>Progress, measured only against yourself</li>
+    <li>The cohort group: join if you want, post, comment, cheer, choose whether to share</li>
+    <li>Settings: reminders, notifications, session audio, export your data, delete your account</li>
+    <li>Apple Watch through Apple Health: heart rate, resting heart rate, variability, sleep and workouts</li>
+    <li>A read-only view for coaches</li>
+    <li>The new and+ breathe look, once the design file is final</li>
+    <li>Test versions on iPhone and Android, then App Store and Google Play release</li>
+  </ul>
+
+  <h2 id="quote-from-you">What we need from you</h2>
+  <ul>
+    <li>Answers to the remaining <a href="#quote-pitch">Pitch questions</a>, and the final design file, before Assemble starts on the screens.</li>
+    <li>Breath-hold timings and safety wording from the course author before the guided session is built.</li>
+    <li>UAT on each test version within two working days.</li>
+    <li>Approval before anything is released to the stores.</li>
+  </ul>
+  <p>Programmes, cohorts and live calls are managed in the Supabase dashboard, not an admin area in the app. The app is in English only.</p>
+</section>
+
+<section class="page" id="quote-pitch" data-group="Quote" data-title="Pitch" data-export="no">
+  <h1>Pitch</h1>
+  <p class="lede">The Pitch is where the product gets defined, by asking questions until nobody has to guess what the app should do. This guide is the result, the Product Definition, and most of it is already done. What's left is a handful of questions, listed below.</p>
+
+  <h2 id="pitch-decided">Already decided</h2>
+  <p>Each of these is recorded as a decision, so the reason behind it is never lost.</p>
+  <table>
+    <thead><tr><th>Question</th><th>Decision</th></tr></thead>
+    <tbody>
+      <tr><td>How do members sign in?</td><td>Email link or code. No Google, so it works for any company.</td></tr>
+      <tr><td>When are the sessions?</td><td>Morning and evening, with room to add more later</td></tr>
+      <tr><td>When do we ask about mood?</td><td>Before and after each session</td></tr>
+      <tr><td>Is joining the group automatic?</td><td>No. Members choose to join and choose to share.</td></tr>
+      <tr><td>What are the live calls?</td><td>Breathwork sessions and coaching calls, joined through a link</td></tr>
+      <tr><td>How do the six weeks change?</td><td>Same programme every week, building tolerance</td></tr>
+      <tr><td>Which wearable first?</td><td>Apple Watch through Apple Health. Garmin next.</td></tr>
+    </tbody>
+  </table>
+
+  <h2 id="pitch-questions">Questions still to answer</h2>
+  <table>
+    <thead><tr><th>Question</th><th>Who answers</th></tr></thead>
+    <tbody>
+      <tr><td>How does the baseline test work, and is base score taken from it?</td><td>You</td></tr>
+      <tr><td>Can we have the final design file?</td><td>You</td></tr>
+      <tr><td>Which watch numbers matter most?</td><td>You</td></tr>
+      <tr><td>Live calls: Zoom or Google Meet, and open to everyone or just your group?</td><td>You</td></tr>
+      <tr><td>Breath-hold counts, recovery times and safety wording for each week</td><td>Course author</td></tr>
+      <tr><td>When someone leaves a cohort, do their old posts stay?</td><td>You</td></tr>
+      <tr><td>Which background sounds should the sessions offer?</td><td>You</td></tr>
+    </tbody>
+  </table>
+
+  <h2 id="pitch-delivers">What the Pitch hands on</h2>
+  <ul>
+    <li>A finished Product Definition, with every user flow spelt out step by step</li>
+    <li>A short record of every decision and why it was made</li>
+    <li>Anything still unanswered, written down as an <a href="#quote-unknowns">assumption</a> so nothing is invented</li>
+  </ul>
+
+  <h2 id="pitch-points">Story points</h2>
+  <table>
+    <thead><tr><th>Ticket</th><th>Points</th></tr></thead>
+    <tbody>
+      <tr><td>Spell out every user flow, step by step, for each screen</td><td>8</td></tr>
+      <tr><td>Answer the remaining questions and record each decision</td><td>4</td></tr>
+      <tr><td><strong>Total</strong></td><td><strong>12</strong></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="page" id="quote-planning" data-group="Quote" data-title="Planning and Workflow" data-export="no">
+  <h1>Planning and Workflow</h1>
+  <p class="lede">Planning turns the Product Definition into small, clear pieces of work called tickets, each sized in story points. The Workflow then puts them in order, so it's always obvious what can be built next and what's waiting on something else.</p>
+
+  <h2 id="planning-steps">How it works</h2>
+  <ol>
+    <li><strong>Draft Tickets.</strong> Launchpad's Planning Agent reads the Product Definition and writes Draft Tickets. Each one has an objective, what's in and out of scope, acceptance criteria (how we'll know it's done), what it depends on, who builds it, and its story points.</li>
+    <li><strong>Draft Ticket Review.</strong> We go through the drafts: edit, split, merge or reorder them. You see the list of features and sign it off.</li>
+    <li><strong>Send to Linear.</strong> Approved tickets move into Linear, where the work is tracked from then on.</li>
+    <li><strong>Workflow.</strong> Tickets are linked by what depends on what. The Launchpad Engine marks each one ready or blocked, and hands ready ones to the builder.</li>
+    <li><strong>When we need you.</strong> If a ticket can't go on without a decision from you, it's marked blocked and flagged for a person, and we'll get in touch.</li>
+  </ol>
+
+  <h2 id="planning-points">Story points</h2>
+  <table>
+    <thead><tr><th>Ticket</th><th>Points</th></tr></thead>
+    <tbody>
+      <tr><td>Planning Agent writes the Draft Tickets, and we review them together</td><td>8</td></tr>
+      <tr><td>Send to Linear and link the dependencies</td><td>2</td></tr>
+      <tr><td><strong>Total</strong></td><td><strong>10</strong></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="page" id="quote-assemble" data-group="Quote" data-title="Assemble" data-export="no">
+  <h1>Assemble</h1>
+  <p class="lede">Assemble is where the app gets built, one ticket at a time. Every change is tested and reviewed twice before it's accepted. The Assemble queue below lists every feature in the order it's built, broken into its tickets, with the story points for each.</p>
+
+  <h2 id="assemble-how">How each ticket is built</h2>
+  <ol>
+    <li>A ticket becomes ready once everything it depends on is finished.</li>
+    <li>A Dev Agent (AI) or a developer makes the change.</li>
+    <li><strong>Dev Testing</strong> checks it was built correctly: automatic tests, type checks and builds.</li>
+    <li>The <strong>Review Agent</strong> checks the change against the ticket, its acceptance criteria and the Product Definition.</li>
+    <li>A developer reviews the pull request and merges it.</li>
+  </ol>
+
+  <h2 id="assemble-queue">The Assemble queue</h2>
+  <p>Garmin, WHOOP and Android watches aren't in this queue. They're <a href="#quote-addons">add-ons</a>.</p>
+  <table>
+    <thead><tr><th>#</th><th>Feature</th><th>Ticket</th><th>Points</th></tr></thead>
+    <tbody>
+      <tr class="feature-row"><td><strong>1</strong></td><td colspan="2"><strong>Foundations</strong></td><td><strong>12</strong></td></tr>
+      <tr><td></td><td></td><td>Expo app with the five tabs</td><td>4</td></tr>
+      <tr><td></td><td></td><td>Colour and font tokens</td><td>2</td></tr>
+      <tr><td></td><td></td><td>Supabase project, database migrations and generated types</td><td>4</td></tr>
+      <tr><td></td><td></td><td>Automatic checks on every change (lint, types, tests)</td><td>2</td></tr>
+      <tr class="feature-row"><td><strong>2</strong></td><td colspan="2"><strong>Email sign-in</strong></td><td><strong>12</strong></td></tr>
+      <tr><td></td><td></td><td>Email and code screens</td><td>4</td></tr>
+      <tr><td></td><td></td><td>Sign-in link that opens the app</td><td>4</td></tr>
+      <tr><td></td><td></td><td>Sign-in email and sending service</td><td>2</td></tr>
+      <tr><td></td><td></td><td>&quot;What should we call you?&quot; and staying signed in</td><td>2</td></tr>
+      <tr class="feature-row"><td><strong>3</strong></td><td colspan="2"><strong>Today</strong></td><td><strong>20</strong></td></tr>
+      <tr><td></td><td></td><td>Choosing and switching programme</td><td>4</td></tr>
+      <tr><td></td><td></td><td>Current week and morning and evening cards</td><td>4</td></tr>
+      <tr><td></td><td></td><td>Mood, sleep and pulse check-in</td><td>4</td></tr>
+      <tr><td></td><td></td><td>Live call card</td><td>2</td></tr>
+      <tr><td></td><td></td><td>Loading and caching Today&#x27;s data</td><td>2</td></tr>
+      <tr><td></td><td></td><td>Layout, empty states and polish</td><td>4</td></tr>
+      <tr class="feature-row"><td><strong>4</strong></td><td colspan="2"><strong>Guided session</strong></td><td><strong>34</strong></td></tr>
+      <tr><td></td><td></td><td>Steps loaded from the database</td><td>8</td></tr>
+      <tr><td></td><td></td><td>Pulse steps</td><td>4</td></tr>
+      <tr><td></td><td></td><td>Hold stopwatch and saving each hold</td><td>4</td></tr>
+      <tr><td></td><td></td><td>Recovery countdown and background audio</td><td>4</td></tr>
+      <tr><td></td><td></td><td>Mood after and finishing</td><td>4</td></tr>
+      <tr><td></td><td></td><td>Pause, resume and exit</td><td>4</td></tr>
+      <tr><td></td><td></td><td>Session time switch and full-screen flow</td><td>4</td></tr>
+      <tr><td></td><td></td><td>Baseline step</td><td>2</td></tr>
+      <tr class="feature-row"><td><strong>5</strong></td><td colspan="2"><strong>Workout log</strong></td><td><strong>12</strong></td></tr>
+      <tr><td></td><td></td><td>Workout form with fields for each type</td><td>8</td></tr>
+      <tr><td></td><td></td><td>List of past workouts</td><td>4</td></tr>
+      <tr class="feature-row"><td><strong>6</strong></td><td colspan="2"><strong>Progress</strong></td><td><strong>20</strong></td></tr>
+      <tr><td></td><td></td><td>Progress summary calculation in the database</td><td>8</td></tr>
+      <tr><td></td><td></td><td>Week 1 against this week</td><td>2</td></tr>
+      <tr><td></td><td></td><td>Charts</td><td>8</td></tr>
+      <tr><td></td><td></td><td>Date range and session filters, &quot;What this means&quot; help</td><td>2</td></tr>
+      <tr class="feature-row"><td><strong>7</strong></td><td colspan="2"><strong>Group</strong></td><td><strong>24</strong></td></tr>
+      <tr><td></td><td></td><td>Join the group or not now, and the sharing toggle</td><td>4</td></tr>
+      <tr><td></td><td></td><td>Group feed</td><td>8</td></tr>
+      <tr><td></td><td></td><td>Posts and comments</td><td>4</td></tr>
+      <tr><td></td><td></td><td>Cheers</td><td>2</td></tr>
+      <tr><td></td><td></td><td>Automatic check-in posts</td><td>2</td></tr>
+      <tr><td></td><td></td><td>Cohort switcher and empty states</td><td>4</td></tr>
+      <tr class="feature-row"><td><strong>8</strong></td><td colspan="2"><strong>Settings</strong></td><td><strong>18</strong></td></tr>
+      <tr><td></td><td></td><td>Reminders scheduled on the phone</td><td>8</td></tr>
+      <tr><td></td><td></td><td>Notification and audio choices</td><td>2</td></tr>
+      <tr><td></td><td></td><td>Export to CSV</td><td>4</td></tr>
+      <tr><td></td><td></td><td>Delete account</td><td>4</td></tr>
+      <tr class="feature-row"><td><strong>9</strong></td><td colspan="2"><strong>Apple Watch</strong></td><td><strong>30</strong></td></tr>
+      <tr><td></td><td></td><td>Custom app build and Apple Health setup</td><td>4</td></tr>
+      <tr><td></td><td></td><td>Connect Apple Health and the permission screen</td><td>4</td></tr>
+      <tr><td></td><td></td><td>Sync heart rate, resting heart rate, variability and breathing rate</td><td>8</td></tr>
+      <tr><td></td><td></td><td>Sync sleep and workouts</td><td>8</td></tr>
+      <tr><td></td><td></td><td>Show watch data in Progress and Workouts, and fill in session pulses</td><td>4</td></tr>
+      <tr><td></td><td></td><td>Permission wording and privacy policy</td><td>2</td></tr>
+      <tr class="feature-row"><td><strong>10</strong></td><td colspan="2"><strong>Coach view</strong></td><td><strong>14</strong></td></tr>
+      <tr><td></td><td></td><td>Cohort and member picker</td><td>4</td></tr>
+      <tr><td></td><td></td><td>Member screens, read-only</td><td>8</td></tr>
+      <tr><td></td><td></td><td>Checking coaches only see the right dates</td><td>2</td></tr>
+      <tr class="feature-row"><td><strong>+</strong></td><td colspan="2"><strong>New look</strong></td><td><strong>12</strong></td></tr>
+      <tr><td></td><td></td><td>New colour and font tokens</td><td>4</td></tr>
+      <tr><td></td><td></td><td>Logo and artwork</td><td>4</td></tr>
+      <tr><td></td><td></td><td>Screen-by-screen changes from the design file</td><td>4</td></tr>
+      <tr class="feature-row"><td></td><td colspan="2"><strong>Total</strong></td><td><strong>208</strong></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="page" id="quote-deploy" data-group="Quote" data-title="Deploy and Live" data-export="no">
+  <h1>Deploy and Live</h1>
+  <p class="lede">Deploy is where you check the app does the right thing, and then it goes out to the world. You test each feature on your own phone, anything that's wrong comes back as a fix, and nothing is released until you approve it. Live means it's in the stores and checked working.</p>
+
+  <h2 id="deploy-uat">UAT: you try it</h2>
+  <ol>
+    <li>After each feature you get a test version: TestFlight on iPhone, internal testing on Android.</li>
+    <li>It comes with a short list of UAT checks, such as "Sign in with a new email and check you land on Today with two reminders". Each check says exactly what you should see.</li>
+    <li>You mark each one pass, fail or skip.</li>
+    <li>A fail becomes a bugfix ticket and goes back through Assemble. Then you check it again.</li>
+  </ol>
+
+  <h2 id="deploy-release">Release</h2>
+  <ol>
+    <li>App icon, splash screen, store listings, screenshots and privacy details.</li>
+    <li>You approve the release.</li>
+    <li>We submit to the App Store and Google Play. Apple reviews health apps closely, so allow a few days.</li>
+    <li>Once approved, we check the live version works. That's Live.</li>
+  </ol>
+
+  <h2 id="deploy-points">Story points</h2>
+  <table>
+    <thead><tr><th>Ticket</th><th>Points</th></tr></thead>
+    <tbody>
+      <tr><td>Test versions and UAT checks for each feature</td><td>8</td></tr>
+      <tr><td>Bugfixes from UAT</td><td>16</td></tr>
+      <tr><td>App icon, splash screen, store listings and privacy details</td><td>8</td></tr>
+      <tr><td>App Store and Google Play submission</td><td>8</td></tr>
+      <tr><td><strong>Total</strong></td><td><strong>40</strong></td></tr>
+    </tbody>
+  </table>
+
+  <h2 id="management-points">Project management</h2>
+  <p>Runs alongside every stage.</p>
+  <table>
+    <thead><tr><th>Ticket</th><th>Points</th></tr></thead>
+    <tbody>
+      <tr><td>Check-ins and progress summaries</td><td>8</td></tr>
+      <tr><td>Handling feedback</td><td>4</td></tr>
+      <tr><td><strong>Total</strong></td><td><strong>12</strong></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="page" id="quote-unknowns" data-group="Quote" data-title="Assumptions" data-export="no">
+  <h1>Assumptions</h1>
+  <p class="lede">Some things aren't confirmed yet, so the quote assumes the simplest answer for each. None of them stop work starting. If an answer turns out bigger, this shows roughly what it could add, so there are no surprises later.</p>
+  <table>
+    <thead><tr><th>We've assumed</th><th>If it turns out differently</th><th>Could add</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Base score is the best breath hold</strong></td><td>If it comes from the new baseline test timer, the guided session and Progress change</td><td>Up to 10 points</td></tr>
+      <tr><td><strong>The new design changes the look, not the screens</strong></td><td>New screens or big layout changes</td><td>Up to 16 points</td></tr>
+      <tr><td><strong>Timings and safety wording arrive before the guided session is built</strong></td><td>The app can still be built, but release waits for them</td><td>Time only, no extra points</td></tr>
+      <tr><td><strong>Watch data: heart rate, resting heart rate, variability, breathing rate, sleep and workouts</strong></td><td>More numbers, or new charts for them</td><td>Up to 12 points</td></tr>
+      <tr><td><strong>Live calls are a link to Zoom or Meet</strong></td><td>Booking, call reminders or payments would be a new feature</td><td>Quoted separately</td></tr>
+      <tr><td><strong>The App Store approves within one or two rounds</strong></td><td>More rounds of changes</td><td>Up to 8 points, plus a few days' wait</td></tr>
+      <tr><td><strong>Sign-in emails arrive normally</strong></td><td>Some company email systems hold them back</td><td>Up to 6 points</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="page" id="quote-addons" data-group="Quote" data-title="Add-ons" data-export="no">
+  <h1>Add-ons</h1>
+  <p class="lede">Things deliberately left out of the MVP, ready to add once the app is live and you can see what members actually want. Each one is its own small project with its own quote. Sizes are worst-case story points, and anything not listed here or in the MVP is priced separately before work starts.</p>
+
+  <h2 id="addons-wearables">More wearables</h2>
+  <p>The MVP connects Apple Watch through Apple Health. Garmin and WHOOP can already sync some of their data into Apple Health, so their users on iPhone get part of their data from day one. A direct connection brings in everything.</p>
+  <table>
+    <thead><tr><th>Wearable</th><th>What members get</th><th>Story points</th></tr></thead>
+    <tbody>
+      <tr><td>⌚ <strong>Apple Watch</strong></td><td>Heart rate, resting heart rate, variability, breathing rate, sleep and workouts</td><td>Included in the MVP</td></tr>
+      <tr><td>🟦 <strong>Garmin</strong></td><td>Everything from their Garmin, directly: heart rate, variability, sleep, stress, Body Battery and workouts. Needs Garmin to approve us as a partner first.</td><td>32</td></tr>
+      <tr><td>🟥 <strong>WHOOP</strong></td><td>Recovery, strain, sleep and heart rate variability straight from WHOOP</td><td>24</td></tr>
+      <tr><td>🤖 <strong>Android watches</strong></td><td>Samsung, Pixel and other Android watches, through Google Health Connect</td><td>24</td></tr>
+      <tr><td></td><td><strong>All three</strong></td><td><strong>80</strong></td></tr>
+    </tbody>
+  </table>
+  <p class="note">The wearable data is set up so new sources plug straight in. Adding Garmin or WHOOP later doesn't mean redoing anything already built.</p>
+
+  <h2 id="addons-other">Other add-ons</h2>
+  <table>
+    <thead><tr><th>Add-on</th><th>What it adds</th><th>Story points</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Admin area in the app</strong></td><td>Manage programmes, cohorts and live calls from the app instead of the Supabase dashboard</td><td>32 or more</td></tr>
+      <tr><td><strong>Automatic group sharing</strong></td><td>Check-ins shared to the group without members switching it on</td><td>8</td></tr>
+      <tr><td><strong>Live call booking or payments</strong></td><td>Members book a spot or pay for a call in the app</td><td>Quoted when needed</td></tr>
+      <tr><td><strong>Walking breath holds</strong></td><td>A new kind of step in the guided session</td><td>Depends on how they work</td></tr>
+      <tr><td><strong>Desktop or tablet layout</strong></td><td>A wider layout for bigger screens</td><td>Quoted when needed</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="page" id="quote-extras" data-group="Quote" data-title="Running costs" data-export="no">
+  <h1>Running costs</h1>
+  <p class="lede">What the app costs to keep running once it's live. These are paid to each service directly, not to us.</p>
+
+  <h2 id="quote-running-costs">Running costs</h2>
+  <p>Approximate. Check current prices before signing up.</p>
+  <table>
+    <thead><tr><th>Service</th><th>What it's for</th><th>Cost</th></tr></thead>
+    <tbody>
+      <tr><td>Apple Developer Program</td><td>Putting the app on the App Store</td><td>About A$149 a year</td></tr>
+      <tr><td>Google Play Console</td><td>Putting the app on Google Play</td><td>About US$25, once</td></tr>
+      <tr><td>Supabase</td><td>Database and sign-in</td><td>Free while building. About US$25 a month once live.</td></tr>
+      <tr><td>Email sending service</td><td>Sign-in emails</td><td>Free for small numbers. About US$20 a month as it grows.</td></tr>
+      <tr><td>Expo Application Services</td><td>Building the app and sending it to the stores</td><td>The free plan is usually enough to start</td></tr>
     </tbody>
   </table>
 </section>

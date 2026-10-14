@@ -69,6 +69,7 @@ table { width: 100%; border-collapse: collapse; margin: 14px 0 6px; background: 
 th { text-align: left; font-weight: 600; background: var(--stone); padding: 9px 12px; }
 td { padding: 9px 12px; border-top: 1px solid var(--hairline); vertical-align: top; }
 .table-scroll { overflow-x: auto; }
+tr.feature-row td { background: var(--sage); color: var(--forest-deep); }
 
 .tag { display: inline-block; font: 600 11.5px var(--sans); border-radius: 999px; padding: 2px 9px; vertical-align: 1px; }
 .tag-open { background: var(--clay); color: var(--clay-ink); }
@@ -196,7 +197,7 @@ details pre { margin: 0; border-radius: 0 0 14px 14px; max-height: 520px; }
   <p class="lede">You're about to save a copy of this whole guide in a form an AI assistant can read.</p>
 
   <h3>What you're getting</h3>
-  <p>One file called <code>and-breathe-build-guide.md</code>. It holds every page of this guide as plain text. The <code>.md</code> on the end stands for Markdown, which is just a tidy way of writing plain text that Claude reads very easily.</p>
+  <p>One file called <code>and-breathe-build-guide.md</code>. It holds every page of this guide as plain text, except the Quote, which is for people only. The <code>.md</code> on the end stands for Markdown, which is just a tidy way of writing plain text that Claude reads very easily.</p>
   <p>The screenshots aren't in the file. Each one is replaced by a short description, and the file points back to the online guide at <a href="https://breathe-app-scope.vercel.app/">breathe-app-scope.vercel.app</a> so you (or Claude) can look at them there.</p>
 
   <h3>How to use it</h3>
@@ -232,7 +233,7 @@ const PALETTE = [
   ["Clay ink", "#94532d", "Text on clay"],
   ["Stone", "#ece6d8", "Later, toggle off"],
 ];
-const AREA_COLOURS = { programmes: "#8a6d2b", cohorts: "#4f6688", people: "#3d6b50", activity: "#7a4e7a", feed: "#2f7c84" };
+const AREA_COLOURS = { programmes: "#8a6d2b", cohorts: "#4f6688", people: "#3d6b50", activity: "#7a4e7a", feed: "#2f7c84", wearables: "#a0522d" };
 
 // Design system: swatches and tokens.
 document.getElementById("swatches").innerHTML = PALETTE.map(([name, hex, use]) =>
@@ -376,7 +377,7 @@ function toMarkdown(node) {
 }
 const downloadGuide = () => {
   const header = `> This is the And Breathe build guide as one Markdown file. The full guide, with screenshots, is online at ${GUIDE_URL}\n\n`;
-  const markdown = header + pages.map((page) => toMarkdown(page)).join("\n---\n\n");
+  const markdown = header + pages.filter((page) => page.dataset.export !== "no").map((page) => toMarkdown(page)).join("\n---\n\n");
   const blob = new Blob([markdown.replace(/\n{3,}/g, "\n\n")], { type: "text/markdown" });
   const link = document.createElement("a");
   link.href = URL.createObjectURL(blob);

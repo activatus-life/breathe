@@ -10,12 +10,14 @@ alter table public.session_holds enable row level security;
 alter table public.check_ins enable row level security;
 alter table public.workouts enable row level security;
 
--- Profiles: cohort mates see names and avatars so the feed can show authors.
+-- Profiles: group mates see names and avatars so the feed can show authors.
+-- Coaches see their roster's names whether or not those members joined the group.
 create policy "Read own profile or current cohort mates" on public.profiles
   for select to authenticated
   using (
     id = auth.uid()
     or public.shares_active_cohort(id)
+    or public.coach_can_view_member(id, current_date)
     or public.is_admin()
   );
 create policy "Update own profile" on public.profiles

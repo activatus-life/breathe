@@ -23,6 +23,20 @@ as $$
   );
 $$;
 
+-- In the cohort and has joined its group feed. Coaches are always in the group.
+create function public.is_group_member(target_cohort_id uuid)
+returns boolean
+language sql stable security definer set search_path = ''
+as $$
+  select exists (
+    select 1 from public.cohort_members
+    where cohort_id = target_cohort_id
+      and user_id = auth.uid()
+      and left_on is null
+      and (in_group or role = 'coach')
+  );
+$$;
+
 create function public.is_cohort_coach(target_cohort_id uuid)
 returns boolean
 language sql stable security definer set search_path = ''
@@ -55,7 +69,7 @@ as $$
   );
 $$;
 
--- True when the caller and another person are both currently in the same cohort.
+-- True when the caller and another person are both currently in the same cohort group.
 create function public.shares_active_cohort(other_user_id uuid)
 returns boolean
 language sql stable security definer set search_path = ''
@@ -66,12 +80,14 @@ as $$
     join public.cohort_members as theirs on theirs.cohort_id = mine.cohort_id
     where mine.user_id = auth.uid()
       and mine.left_on is null
+      and (mine.in_group or mine.role = 'coach')
       and theirs.user_id = other_user_id
       and theirs.left_on is null
+      and (theirs.in_group or theirs.role = 'coach')
   );
 $$;
 
--- Lets members show "6 members" without being able to list who they are.
+-- Lets members show "6 members" in the group without being able to list who they are.
 create function public.cohort_member_count(target_cohort_id uuid)
 returns integer
 language sql stable security definer set search_path = ''
@@ -79,7 +95,7 @@ as $$
   select case
     when public.is_active_cohort_member(target_cohort_id) or public.is_admin() then (
       select count(*)::integer from public.cohort_members
-      where cohort_id = target_cohort_id and role = 'member' and left_on is null
+      where cohort_id = target_cohort_id and role = 'member' and in_group and left_on is null
     )
   end;
 $$;

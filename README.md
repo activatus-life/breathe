@@ -17,7 +17,10 @@ You don't need to be a developer to read it.
 
 And Breathe is a breathwork app that takes a member through a multi-week programme.
 
-- **Three short sessions a day** (morning, noon and evening), built around breath holds, pulse readings and recovery.
+- **Two short sessions a day** (morning and evening), built around breath holds, pulse readings and recovery. More session times can be added later.
+- **Email sign-in.** A link or a code, no password and no Google account needed.
+- **Live calls.** Breathwork sessions and coaching calls, joined from the app.
+- **Apple Watch.** Heart rate, sleep and workouts pulled in through Apple Health. Garmin next.
 - **Workout logging**, so progress can be read against training load.
 - **Progress against yourself.** Members are never compared with each other.
 - **A cohort group**, where members share their practice with others on the same programme.
@@ -54,9 +57,10 @@ Prefer a copy on your own computer? The whole guide is one file, **`index.html`*
 | 👋 **Start here** | The overview, and how to hand the guide to Claude |
 | 📱 **Product** | What each screen does, and who is allowed to see what |
 | 🎨 **Design system** | Colours, fonts, buttons and the tone of the wording |
-| 🏗️ **Architecture** | The tools the app is built with, sign-in and code standards |
+| 🏗️ **Architecture** | The tools the app is built with, sign-in, wearables and code standards |
 | 🗄️ **Database** | Where the app keeps its information, and the rules that protect it |
-| 🗺️ **Build plan** | The order to build things in, and the questions still to be answered |
+| 🗺️ **Build plan** | The features in build order, and the assumptions still to be confirmed |
+| 💰 **Quote** | How the build runs through Launchpad (Pitch, Planning, Assemble, Deploy), sized in worst-case story points, with assumptions and add-ons |
 | 📎 **Appendix** | The database files, ready to copy |
 
 ## 🤖 Building it with Claude

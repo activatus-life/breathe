@@ -17,7 +17,8 @@ create trigger user_settings_set_updated_at before update on public.user_setting
 create trigger group_posts_set_updated_at before update on public.group_posts
   for each row execute function public.set_updated_at();
 
--- Google sign-in creates the auth user; this seeds everything the app expects.
+-- Email sign-in creates the auth user; this seeds everything the app expects.
+-- Email sign-in carries no name, so display_name starts empty and the app asks for it.
 create function public.handle_new_user()
 returns trigger
 language plpgsql security definer set search_path = ''
@@ -32,10 +33,10 @@ begin
 
   insert into public.user_settings (user_id) values (new.id);
 
-  insert into public.session_reminders (user_id, slot, reminder_time) values
-    (new.id, 'morning', '07:00'),
-    (new.id, 'noon', '12:30'),
-    (new.id, 'evening', '20:30');
+  insert into public.session_reminders (user_id, slot, reminder_time)
+  select new.id, slot.id, slot.default_reminder_time
+  from public.session_slots as slot
+  where slot.is_active;
 
   return new;
 end;
@@ -63,8 +64,8 @@ create trigger session_holds_refresh_base_score
   after insert or update or delete on public.session_holds
   for each row execute function public.refresh_session_base_score();
 
--- When a session is finished, post "<slot> done" to every cohort the member
--- shares with, for the programme that session belongs to.
+-- When a session is finished, post "<slot> done" to every cohort group the member
+-- has joined and shares with, for the programme that session belongs to.
 create function public.post_check_in_on_session_done()
 returns trigger
 language plpgsql security definer set search_path = ''
@@ -82,6 +83,7 @@ begin
   where membership.user_id = new.user_id
     and membership.role = 'member'
     and membership.left_on is null
+    and membership.in_group
     and membership.share_to_group
     and cohort.program_id = enrolment.program_id;
 
@@ -93,7 +95,8 @@ create trigger sessions_post_check_in
   after update of status on public.sessions
   for each row execute function public.post_check_in_on_session_done();
 
--- Members may only change their own sharing toggle or leave. Everything else is admin-only.
+-- Members may only join or leave the group, change their sharing toggle, or leave the
+-- cohort. Everything else is admin-only.
 create function public.guard_cohort_member_changes()
 returns trigger
 language plpgsql set search_path = ''
